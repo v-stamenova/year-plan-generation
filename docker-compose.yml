@@ -1,0 +1,10 @@
+services:
+  app:
+    image: composer:2.10.3
+    working_dir: /app
+    user: "${HOST_UID}:${HOST_GID}"
+    volumes:
+      - .:/app
+    command: tail -f /dev/null
+    ports:
+      - "8888:8888"
