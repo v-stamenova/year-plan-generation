@@ -3,11 +3,13 @@
 {% set pageTitle = "Home" %}
 
 {% block content %}
+    {% include 'components/schedule_context_menu.html.twig' %}
     <link rel="stylesheet" href="/css/plan.css">
+    <script src="/js/schedule_context_menu.js"></script>
 
     <div class="container text-center">
         <h3>Year schedule ICT - first year 2026/2027</h3>
-
+        <br>
         <div class="schedule-grid schedule-header">
             <div class="border">Week</div>
             <div class="border">Block Week</div>
@@ -47,7 +49,9 @@
                 </div>
 
                 {% for date, day in week.days %}
-                    <div class="schedule-cell schedule-day schedule-day-{{ loop.index }}{% if loop.first or loop.last %} schedule-edge-day{% endif %}">
+                    <div class="schedule-cell schedule-day schedule-day-{{ loop.index }}{% if loop.first or loop.last %} schedule-edge-day{% endif %}"
+                         data-date="{{ date|date('Y-m-d') }}"
+                    >
                         {% if loop.first or loop.last %}
                             {{ date }}
                         {% else %}

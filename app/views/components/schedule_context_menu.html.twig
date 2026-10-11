@@ -1,0 +1,46 @@
+<div id="schedule-context-menu" class="dropdown-menu" hidden>
+    <ul class="list-group">
+        <li class="list-group-item list-group-item-action" data-action="add-single"
+            data-bs-toggle="dialog" data-bs-target="#addBlockDialog">
+            Add block
+        </li>
+        <li class="list-group-item list-group-item-action" data-action="add-multi">
+            Add multiple-day block
+        </li>
+    </ul>
+</div>
+
+<dialog class="dialog" id="addBlockDialog">
+    <div class="dialog-header">
+        <h1 class="dialog-title">Add a new block</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="dialog" aria-label="Close"></button>
+    </div>
+
+    <div class="dialog-body">
+        <form id="addBlockForm">
+            <div class="mb-3">
+                <label class="form-label" for="blockDate">Date</label>
+                <input type="date" class="form-control" id="blockDate" name="date" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="blockDate">Date</label>
+                <input type="date" class="form-control" id="blockDate" name="date" required>
+            </div>
+
+            <label for="blockTitle">Title</label>
+            <input type="text" id="blockTitle" name="title" required>
+
+            <div class="dialog-footer">
+                <button type="button"
+                        class="btn-solid theme-secondary"
+                        data-bs-dismiss="dialog">
+                    Cancel
+                </button>
+
+                <button type="submit" class="btn-solid theme-primary">
+                    Save
+                </button>
+            </div>
+        </form>
+    </div>
+</dialog>
