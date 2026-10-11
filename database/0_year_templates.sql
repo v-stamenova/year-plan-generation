@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS year_templates;
 
 CREATE TABLE year_templates (
     id INTEGER PRIMARY KEY,
-    name VARCHAR(255),
+    name TEXT,
     start_date TEXT NOT NULL,  -- YYYY-MM-DD (ISO 8601)
     end_date TEXT NOT NULL     -- YYYY-MM-DD
 );

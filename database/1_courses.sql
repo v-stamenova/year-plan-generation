@@ -1,9 +1,9 @@
 DROP TABLE IF EXISTS courses;
 
 CREATE TABLE courses (
-    id VARCHAR(5) PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    colour VARCHAR(7)
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    colour TEXT
 );
 
 INSERT INTO courses (id, name, colour) VALUES

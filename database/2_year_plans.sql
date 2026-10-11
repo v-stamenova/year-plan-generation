@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS year_plans;
 
 CREATE TABLE year_plans (
     id INTEGER PRIMARY KEY,
-    name VARCHAR(255),
+    name TEXT,
     student_year INTEGER NOT NULL,
     start_date TEXT NOT NULL,  -- YYYY-MM-DD (ISO 8601)
     end_date TEXT NOT NULL     -- YYYY-MM-DD
