@@ -19,21 +19,23 @@
             <div class="col-1 border">Saturday</div>
         </div>
 
-        <div class="row">
-            <div class="col-1 border schedule-cell">37</div>
-            <div class="col-1 border schedule-cell">B2</div>
+        {% for key, week in weeks %}
+            <div class="row">
+                <div class="col-1 border schedule-cell">{{ key }}</div>
+                <div class="col-1 border schedule-cell">B2</div>
 
-            {% for date, day in week %}
-                {% if loop.first or loop.last %}
-                    <div class="col-1 border schedule-cell">
-                        {{ date }}
-                    </div>
-                {% else %}
-                    <div class="col border schedule-cell" style="background-color: {{ day[0].colour }}">
-                        {{ day is not empty ? (day[0].name ?: day[0].id) : '' }}
-                    </div>
-                {% endif %}
-            {% endfor %}
-        </div>
+                {% for date, day in week %}
+                    {% if loop.first or loop.last %}
+                        <div class="col-1 border schedule-cell">
+                            {{ date }}
+                        </div>
+                    {% else %}
+                        <div class="col border schedule-cell p-0">
+                            {% include 'components/schedule_day.html.twig' with { day: day } %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endfor %}
     </div>
 {% endblock %}

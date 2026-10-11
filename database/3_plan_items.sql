@@ -17,7 +17,9 @@ CREATE TABLE plan_items (
 );
 
 INSERT INTO plan_items (year_plan_id, start_date, course_id) VALUES
-    (1, "2026-09-06", 'CSB');
+    (1, "2026-09-08", 'CSB');
 
 INSERT INTO plan_items (year_plan_id, start_date, name, colour) VALUES
-    (1, "2026-09-07", "Programming basics (PBA)", "#00ff00");
+    (1, "2026-09-07", "Programming basics (PBA)", "#00ff00"),
+    (1, "2026-09-09", "Programming basics (PBA)", "#00ff00"),
+    (1, "2026-09-09", "IT Studio (PBA)", "#0000ff");

@@ -39,7 +39,13 @@ class PlanItemRepository
     public function findByYearPlanId(int $yearPlanId): array
     {
         $stmt = $this->database->run(
-            "SELECT * FROM plan_items WHERE year_plan_id = ?",
+            "SELECT
+            pi.*,
+            c.name AS course_name,
+            c.colour AS course_colour
+            FROM plan_items pi
+            LEFT JOIN courses c ON c.id = pi.course_id
+            WHERE pi.year_plan_id = ?",
             [$yearPlanId]
         )->fetchAll();
 
@@ -97,9 +103,9 @@ class PlanItemRepository
     {
         $item = new PlanItem();
 
-        $item->id = (int) $row->id;
-        $item->name = $row->name;
-        $item->colour = $row->colour;
+        $item->id = (int)$row->id;
+        $item->name = $row->course_id ? $row->course_name : $row->name;
+        $item->colour = $row->course_id ? $row->course_colour : $row->colour;
 
         $item->start_date = (new DateTime($row->start_date))->setTime(0, 0);
 
@@ -107,7 +113,7 @@ class PlanItemRepository
             ? (new DateTime($row->end_date))->setTime(0, 0)
             : null;
 
-        $item->year_plan_id = (int) $row->year_plan_id;
+        $item->year_plan_id = (int)$row->year_plan_id;
         $item->course_id = $row->course_id;
 
         return $item;

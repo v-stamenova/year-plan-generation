@@ -12,5 +12,6 @@ class PlanItem
     public DateTime $start_date;
     public ?DateTime $end_date;
     public int $year_plan_id;
+    public ?Course $course;
     public ?string $course_id;
 }
