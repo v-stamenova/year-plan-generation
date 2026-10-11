@@ -21,6 +21,7 @@ class YearPlanController extends Controller
 
     public function index()
     {
+        // hardcoded for now
         $yearPlan = $this->yearPlanRepository->findById(1);
         $planItems = $this->planItemRepository->findByYearPlanId(1);
 
@@ -41,29 +42,27 @@ class YearPlanController extends Controller
         string $endDate,
         array $planItems
     ): array {
+        $weeks = $this->createWeeks($startDate, $endDate);
+
+        $this->addSingleDayItems($weeks, $planItems);
+        $this->addMultiDayItems($weeks, $planItems);
+
+        return $weeks;
+    }
+
+    /**
+     * Create the calendar weeks and their seven empty days.
+     */
+    private function createWeeks(
+        string $startDate,
+        string $endDate
+    ): array {
         $start = new \DateTimeImmutable($startDate);
         $end = new \DateTimeImmutable($endDate);
 
-        // Move to the Sunday on or before the start date (as per the HZ plan)
         $calendarStart = $start->modify('sunday this week');
-        if ($start->format('w') === '0') {
-            $calendarStart = $start;
-        }
-
-        // Move to the Saturday on or after the end date (as per the HZ plan)
         $calendarEnd = $end->modify('saturday this week');
-        if ($end->format('w') === '6') {
-            $calendarEnd = $end;
-        }
 
-        // Group plan items by their start date.
-        $itemsByDate = [];
-        foreach ($planItems as $planItem) {
-            $date = $planItem->start_date->format('d-m-Y');
-            $itemsByDate[$date][] = $planItem;
-        }
-
-        // Group based on weeks for easier rendering
         $weeks = [];
 
         for (
@@ -71,20 +70,126 @@ class YearPlanController extends Controller
             $weekStart <= $calendarEnd;
             $weekStart = $weekStart->modify('+1 week')
         ) {
-            $weekNumber = (int) $weekStart->modify('+1 day')->format('W');
+            // Use Monday to determine the ISO week number.
+            $weekNumber = (int) $weekStart
+                ->modify('+1 day')
+                ->format('W');
 
-            $week = [];
+            $days = [];
 
             for ($day = 0; $day < 7; $day++) {
-                $date = $weekStart->modify("+$day days");
+                $date = $weekStart->modify("+{$day} days");
                 $dateKey = $date->format('d-m-Y');
 
-                $week[$dateKey] = $itemsByDate[$dateKey] ?? [];
+                $days[$dateKey] = [];
             }
 
-            $weeks[$weekNumber] = $week;
+            $weeks[$weekNumber] = [
+                'startDate' => $weekStart,
+                'days' => $days,
+                'multiDayItems' => [],
+            ];
         }
 
         return $weeks;
+    }
+
+    /**
+     * Assign single-day items to their corresponding dates.
+     */
+    private function addSingleDayItems(
+        array &$weeks,
+        array $planItems
+    ): void {
+        foreach ($planItems as $planItem) {
+            if ($planItem->end_date !== null) {
+                continue;
+            }
+
+            $dateKey = $planItem->start_date->format('d-m-Y');
+
+            foreach ($weeks as &$week) {
+                if (!array_key_exists($dateKey, $week['days'])) {
+                    continue;
+                }
+
+                $week['days'][$dateKey][] = $planItem;
+                break;
+            }
+
+            unset($week);
+        }
+    }
+
+    /**
+     * Split multi-day items across the weeks they overlap.
+     */
+    private function addMultiDayItems(
+        array &$weeks,
+        array $planItems
+    ): void {
+        foreach ($planItems as $planItem) {
+            // Items without an end date are handled separately.
+            if ($planItem->end_date === null) {
+                continue;
+            }
+
+            $itemStart = $planItem->start_date;
+            $itemEnd = $planItem->end_date;
+
+            foreach ($weeks as &$week) {
+                $weekStart = $week['startDate'];
+                $weekEnd = $weekStart->modify('+6 days');
+
+                // Skip weeks that do not overlap the event.
+                if ($itemStart > $weekEnd || $itemEnd < $weekStart) {
+                    continue;
+                }
+
+                $week['multiDayItems'][] = $this->createMultiDaySegment(
+                    $planItem,
+                    $weekStart,
+                    $weekEnd
+                );
+            }
+
+            unset($week);
+        }
+    }
+
+    /**
+     * Calculate the visible columns for an item within a single week.
+     */
+    private function createMultiDaySegment(
+        object $planItem,
+        \DateTimeImmutable $weekStart,
+        \DateTimeImmutable $weekEnd
+    ): array {
+        $itemStart = $planItem->start_date;
+        $itemEnd = $planItem->end_date;
+
+        // Clip the event to the boundaries of this week.
+        $visibleStart = $itemStart > $weekStart
+            ? $itemStart
+            : $weekStart;
+
+        $visibleEnd = $itemEnd < $weekEnd
+            ? $itemEnd
+            : $weekEnd;
+
+        // Sunday = column 1, Saturday = column 7.
+        $startColumn = (int) $weekStart
+                ->diff($visibleStart)
+                ->days + 1;
+
+        $span = (int) $visibleStart
+                ->diff($visibleEnd)
+                ->days + 1;
+
+        return [
+            'item' => $planItem,
+            'startColumn' => $startColumn,
+            'span' => $span,
+        ];
     }
 }

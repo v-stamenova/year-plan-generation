@@ -4,37 +4,60 @@
 
 {% block content %}
     <link rel="stylesheet" href="/css/plan.css">
+
     <div class="container text-center">
         <h3>Year schedule ICT - first year 2026/2027</h3>
 
-        <div class="row">
-            <div class="col-1 border">Week</div>
-            <div class="col-1 border">Block Week</div>
-            <div class="col-1 border">Sunday</div>
-            <div class="col border">Monday</div>
-            <div class="col border">Tuesday</div>
-            <div class="col border">Wednesday</div>
-            <div class="col border">Thursday</div>
-            <div class="col border">Friday</div>
-            <div class="col-1 border">Saturday</div>
+        <div class="schedule-grid schedule-header">
+            <div class="border">Week</div>
+            <div class="border">Block Week</div>
+            <div class="border">Sunday</div>
+            <div class="border">Monday</div>
+            <div class="border">Tuesday</div>
+            <div class="border">Wednesday</div>
+            <div class="border">Thursday</div>
+            <div class="border">Friday</div>
+            <div class="border">Saturday</div>
         </div>
 
         {% for key, week in weeks %}
-            <div class="row">
-                <div class="col-1 border schedule-cell">{{ key }}</div>
-                <div class="col-1 border schedule-cell">B2</div>
+            <div class="schedule-week">
 
-                {% for date, day in week %}
-                    {% if loop.first or loop.last %}
-                        <div class="col-1 border schedule-cell">
+                <div class="schedule-multiday-row">
+                    {% for segment in week.multiDayItems %}
+                        <div
+                                class="schedule-multiday-item"
+                                style="
+                                        --start-column: {{ segment.startColumn }};
+                                        --span: {{ segment.span }};
+                                        background-color: {{ segment.item.colour }};
+                                        "
+                        >
+                            {{ segment.item.name ?: segment.item.id }}
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="schedule-cell schedule-week-number">
+                    {{ key }}
+                </div>
+
+                <div class="schedule-cell schedule-block-week">
+                    B2
+                </div>
+
+                {% for date, day in week.days %}
+                    <div class="schedule-cell schedule-day schedule-day-{{ loop.index }}{% if loop.first or loop.last %} schedule-edge-day{% endif %}">
+                        {% if loop.first or loop.last %}
                             {{ date }}
-                        </div>
-                    {% else %}
-                        <div class="col border schedule-cell p-0">
-                            {% include 'components/schedule_day.html.twig' with { day: day } %}
-                        </div>
-                    {% endif %}
+                        {% else %}
+                            {% include 'components/schedule_day.html.twig' with {
+                                day: day
+                            } %}
+                        {% endif %}
+                    </div>
                 {% endfor %}
+
             </div>
         {% endfor %}
     </div>
