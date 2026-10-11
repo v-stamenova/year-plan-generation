@@ -2,10 +2,7 @@
 
 namespace App;
 
-use App\Controllers\HomeController;
-use App\Controllers\ProjectController;
-use App\Controllers\TagController;
-use App\Controllers\TaskController;
+use App\Controllers\YearPlanController;
 use Framework\Router;
 use Framework\RouteProviderInterface;
 use Framework\ServiceContainer;
@@ -17,6 +14,6 @@ class RouteProvider implements RouteProviderInterface
      */
     public function register(Router $router, ServiceContainer $container): void
     {
-
+        $router->addRoute('GET', '/', [$container->get(YearPlanController::class), 'index']);
     }
 }

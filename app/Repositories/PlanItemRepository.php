@@ -99,10 +99,8 @@ class PlanItemRepository
         $item->id = (int) $row->id;
         $item->name = $row->name;
         $item->colour = $row->colour;
-        $item->start_date = new DateTime($row->start_date);
-        $item->end_date = $row->end_date !== null
-            ? new DateTime($row->end_date)
-            : null;
+        $item->start_date = (new DateTime($row['start_date']))->setTime(0, 0);
+        $item->end_date   = $row['end_date'] ? (new DateTime($row['end_date']))->setTime(0, 0) : null;
         $item->year_plan_id = (int) $row->year_plan_id;
         $item->course_id = $row->course_id;
 

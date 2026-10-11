@@ -23,6 +23,10 @@ class ServiceContainer
         if (isset($this->instances[$id])) {
             throw new Exception("Target binding [$id] already exists.");
         }
+        if ($instance instanceof Controller) {
+            $responseFactory = $this->get(ResponseFactory::class);
+            $instance->setResponseFactory($responseFactory);
+        }
         $this->instances[$id] = $instance;
     }
 

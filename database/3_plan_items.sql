@@ -15,3 +15,9 @@ CREATE TABLE plan_items (
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
+
+INSERT INTO plan_items (year_plan_id, start_date, course_id) VALUES
+    (1, "2026-09-06", 'CSB');
+
+INSERT INTO plan_items (year_plan_id, start_date, name, colour) VALUES
+    (1, "2026-09-07", "Programming basics (PBA)", "#00ff00");

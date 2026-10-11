@@ -4,7 +4,8 @@ namespace App\Repositories;
 
 use App\Models\YearPlan;
 use Framework\Database;
-use pq\DateTime;
+
+use DateTime;
 
 class YearPlanRepository
 {
@@ -27,6 +28,20 @@ class YearPlanRepository
             $templates[] = $plan;
         }
         return $templates;
+    }
+
+    public function findById(int $id): ?YearPlan
+    {
+        $row = $this->database->run(
+            "SELECT * FROM year_plans WHERE id = ?",
+            [$id]
+        )->fetch();
+
+        if (!$row) {
+            return null;
+        }
+
+        return $this->fromDbRow($row);
     }
 
     private function fromDbRow(mixed $row): YearPlan

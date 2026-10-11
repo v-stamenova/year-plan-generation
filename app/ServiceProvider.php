@@ -6,11 +6,13 @@ use App\Controllers\HomeController;
 use App\Controllers\ProjectController;
 use App\Controllers\TagController;
 use App\Controllers\TaskController;
+use App\Controllers\YearPlanController;
 use App\Repositories\ProjectRepository;
 use App\Repositories\ProjectRepositoryInterface;
 use App\Repositories\TagRepository;
 use App\Repositories\TaskRepository;
 use App\Repositories\TaskRepositoryInterface;
+use App\Repositories\YearPlanRepository;
 use Exception;
 use Framework\Database;
 use Framework\ResponseFactory;
@@ -24,8 +26,12 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(ServiceContainer $container): void
     {
-        $responseFactory = $container->get(ResponseFactory::class);
-
         $database = $container->get(Database::class);
+
+        $yearPlanRepository = new YearPlanRepository($database);
+        $container->set(YearPlanRepository::class, $yearPlanRepository);
+
+        $yearPlanController = new YearPlanController($yearPlanRepository);
+        $container->set(YearPlanController::class, $yearPlanController);
     }
 }
