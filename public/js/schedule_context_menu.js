@@ -49,12 +49,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     document.addEventListener('contextmenu', event => {
-        const cell = event.target.closest('.schedule-day[data-date]');
+        const cell = event.target.closest('.scheduled-block[data-date], .schedule-day[data-date]');
         if (!cell) return;
 
         // Get the schedule block ID if the right-click was on a block.
         const block = event.target.closest('.scheduled-block');
         const blockId = block ? block.id : null;
+        console.log(block)
 
         const date = cell.dataset.date;
         const isBlockMenu = cell.dataset.menu === 'block';
@@ -70,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('htmx:afterRequest', event => {
         if (!event.detail.successful) return;
 
-        event.target.closest('dialog')?.close();
+        event.target.closest('dialog')?.querySelector('[data-bs-dismiss="dialog"]')?.click();
     });
 
     [menu, blockMenu].filter(Boolean).forEach(targetMenu => {
