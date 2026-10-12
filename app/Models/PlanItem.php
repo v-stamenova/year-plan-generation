@@ -15,4 +15,5 @@ class PlanItem
     public ?Course $course = null;
     public ?string $course_id = null;
     public bool $is_main = false;
+    public ?string $type = null;
 }

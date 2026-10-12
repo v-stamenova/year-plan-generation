@@ -3,9 +3,9 @@
 {% set pageTitle = "Home" %}
 
 {% block content %}
-{#    {% include 'components/schedule_context_menu.html.twig'  with {#}
-{#        courses: courses#}
-{#    } %}#}
+    {#    {% include 'components/schedule_context_menu.html.twig'  with {#}
+    {#        courses: courses#}
+    {#    } %}#}
     {% include "components/_context_menu.html.twig" %}
 
     {% include "components/_add_block_dialog.html.twig" with { courses: courses } %}
@@ -35,7 +35,7 @@
             <div class="schedule-week">
 
                 <div class="schedule-multiday-row">
-                    {% for segment in week.multiDayItems %}
+                    {% for segment in week.multiDaySegments %}
                         {% if not segment.item.is_main %}
                             <div
                                     class="schedule-multiday-item"
@@ -51,7 +51,7 @@
                     {% endfor %}
                 </div>
 
-                {% for segment in week.multiDayItems %}
+                {% for segment in week.multiDaySegments %}
                     {% if segment.item.is_main %}
                         <div
                                 class="schedule-multiday-main"
@@ -67,23 +67,23 @@
                 {% endfor %}
 
                 <div class="schedule-cell schedule-week-number">
-                    {{ key }}
+                    {{ week.weekNumber }}
                 </div>
 
                 <div class="schedule-cell schedule-block-week">
-                    B2
+                    B{{ week.blockWeek ?? '' }}
                 </div>
 
-                {% for date, day in week.days %}
+                {% for day in week.days %}
                     <div
-                            class="schedule-cell {%  if day|length == 0 %} schedule-day {% endif %}schedule-day-{{ loop.index }}{% if loop.first or loop.last %} schedule-edge-day{% endif %}"
-                            data-date="{{ date|date('Y-m-d') }}"
+                            class="schedule-cell {% if day.items|length == 0 %} schedule-day {% endif %}schedule-day-{{ loop.index }}{% if loop.first or loop.last %} schedule-edge-day{% endif %}"
+                            data-date="{{ day.date|date('Y-m-d') }}"
                     >
                         {% if loop.first or loop.last %}
-                            {{ date }}
+                            {{ day.key }}
                         {% else %}
                             {% include 'components/schedule_day.html.twig' with {
-                                day: day
+                                day: day.items
                             } %}
                         {% endif %}
                     </div>
