@@ -14,7 +14,9 @@
     <div class="dialog-body">
         <form id="addMultidayBlockForm"
               method="POST"
-              action="/schedule/update">
+              action="/schedule/update"
+              hx-post="/schedule/update"
+              hx-target="#calendar">
 
             <input type="hidden"
                    name="is_one_time"

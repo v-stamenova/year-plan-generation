@@ -48,11 +48,27 @@ class YearPlanController extends Controller
         ]);
     }
 
+    private function calendar()
+    {
+        $yearPlan = $this->yearPlanRepository->findById(1);
+        $planItems = $this->planItemRepository->findByYearPlanId(1);
+
+        return $this->responseFactory->view('components/_calendar.html.twig', [
+            'weeks' => $this->calendarService->buildWeeks(
+                $yearPlan->start_date,
+                $yearPlan->end_date,
+                $planItems
+            ),
+        ]);
+    }
+
     public function delete(Request $request) {
         $item = $this->planItemRepository->findById($request->get('item_id'));
-        $this->planItemRepository->delete($item);
+        if ($item) {
+            $this->planItemRepository->delete($item);
+        }
 
-        return $this->responseFactory->redirect("/");
+        return $this->calendar();
     }
 
     public function update(Request $request) {
@@ -83,8 +99,7 @@ class YearPlanController extends Controller
             $this->planItemRepository->create($planItem);
         }
 
-
-        return $this->responseFactory->redirect('/');
+        return $this->calendar();
     }
 
     private function getRepeatDates(

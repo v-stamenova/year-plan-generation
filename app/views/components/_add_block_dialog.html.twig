@@ -12,7 +12,9 @@
     <div class="dialog-body">
         <form id="addBlockForm"
               method="POST"
-              action="/schedule/update">
+              action="/schedule/update"
+              hx-post="/schedule/update"
+              hx-target="#calendar">
 
             <div class="form-field mb-3">
                 <div class="switch">

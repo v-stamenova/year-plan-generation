@@ -34,7 +34,7 @@
 
         <li class="list-group-item list-group-item-action p-1"
             data-action="delete-block">
-            <form id="deleteBlockForm" method="POST" action="/schedule/delete">
+            <form id="deleteBlockForm" method="POST" action="/schedule/delete" hx-post="/schedule/delete" hx-target="#calendar">
                 <input type="hidden" name="item_id" id="deleteBlockId">
                 <button type="submit" class="btn btn-link theme-danger btn-sm">
                     Delete block

@@ -8,8 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const deleteForm = document.getElementById('deleteBlockForm');
     const deleteBlockId = document.getElementById('deleteBlockId');
 
-    const cells = document.querySelectorAll('.schedule-day[data-date]');
-
     let selectedDate = null;
     let selectedBlockId = null;
     let activeMenu = null;
@@ -50,22 +48,29 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    cells.forEach(cell => {
-        cell.addEventListener('contextmenu', event => {
-            // Get the schedule block ID if the right-click was on a block.
-            const block = event.target.closest('.scheduled-block');
-            const blockId = block ? block.id : null;
+    document.addEventListener('contextmenu', event => {
+        const cell = event.target.closest('.schedule-day[data-date]');
+        if (!cell) return;
 
-            const date = cell.dataset.date;
-            const isBlockMenu = cell.dataset.menu === 'block';
+        // Get the schedule block ID if the right-click was on a block.
+        const block = event.target.closest('.scheduled-block');
+        const blockId = block ? block.id : null;
 
-            showMenu(
-                isBlockMenu ? blockMenu : menu,
-                event,
-                date,
-                blockId
-            );
-        });
+        const date = cell.dataset.date;
+        const isBlockMenu = cell.dataset.menu === 'block';
+
+        showMenu(
+            isBlockMenu ? blockMenu : menu,
+            event,
+            date,
+            blockId
+        );
+    });
+
+    document.addEventListener('htmx:afterRequest', event => {
+        if (!event.detail.successful) return;
+
+        event.target.closest('dialog')?.close();
     });
 
     [menu, blockMenu].filter(Boolean).forEach(targetMenu => {
