@@ -9,6 +9,7 @@
 
         const courseFields = dialog.querySelector('#courseFields');
         const eventFields = dialog.querySelector('#eventFields');
+        const repeatFields = dialog.querySelector('#repeatFields');
 
         const courseToggle = courseFields.querySelector(
             '[data-bs-toggle="combobox"]'
@@ -21,6 +22,7 @@
             const isOneTimeEvent = toggle.checked;
 
             courseFields.hidden = isOneTimeEvent;
+            repeatFields.hidden = isOneTimeEvent;
             eventFields.hidden = !isOneTimeEvent;
 
             courseToggle.disabled = isOneTimeEvent;

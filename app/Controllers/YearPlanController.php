@@ -45,6 +45,13 @@ class YearPlanController extends Controller
         ]);
     }
 
+    public function delete(Request $request) {
+        $item = $this->planItemRepository->findById($request->get('item_id'));
+        $this->planItemRepository->delete($item);
+
+        return $this->responseFactory->redirect("/");
+    }
+
     public function update(Request $request) {
         $planItem = new PlanItem();
         $planItem->start_date = new \DateTime($request->get('start_date'));
@@ -53,6 +60,7 @@ class YearPlanController extends Controller
         if (boolval($request->get('is_one_time'))) {
             $planItem->name = $request->get('name');
             $planItem->colour = $request->get('colour');
+            $planItem->is_main = (bool)$request->get('allDay');
 
             if ($request->get('end_date')) {
                 $planItem->end_date = new \DateTime($request->get('end_date'));

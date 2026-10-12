@@ -76,7 +76,7 @@
 
                 {% for date, day in week.days %}
                     <div
-                            class="schedule-cell schedule-day schedule-day-{{ loop.index }}{% if loop.first or loop.last %} schedule-edge-day{% endif %}"
+                            class="schedule-cell {%  if day|length == 0 %} schedule-day {% endif %}schedule-day-{{ loop.index }}{% if loop.first or loop.last %} schedule-edge-day{% endif %}"
                             data-date="{{ date|date('Y-m-d') }}"
                     >
                         {% if loop.first or loop.last %}

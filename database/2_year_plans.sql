@@ -9,4 +9,4 @@ CREATE TABLE year_plans (
 );
 
 INSERT INTO year_plans (student_year, start_date, end_date)
-VALUES (1, '2026-08-16', '2027-08-28');
+VALUES (1, '2026-08-16', '2027-08-16');

@@ -61,7 +61,13 @@ class PlanItemRepository
     public function findById(int $id): ?PlanItem
     {
         $row = $this->database->run(
-            "SELECT * FROM plan_items WHERE id = ?",
+            "SELECT
+            pi.*,
+            c.name AS course_name,
+            c.colour AS course_colour
+            FROM plan_items pi
+            LEFT JOIN courses c ON c.id = pi.course_id
+            WHERE pi.id = ?",
             [$id]
         )->fetch();
 
@@ -99,6 +105,13 @@ class PlanItemRepository
         );
 
         return $this->database->getLastID();
+    }
+
+    public function delete(PlanItem $item): bool
+    {
+        $stmt = $this->database->run("DELETE FROM plan_items WHERE id = :id", ["id" => $item->id]);
+
+        return $stmt->rowCount() > 0;
     }
 
     private function fromDbRow(mixed $row): PlanItem

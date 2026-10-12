@@ -15,3 +15,32 @@
         </li>
     </ul>
 </div>
+
+<div id="schedule-context-menu-block" class="dropdown-menu z-popover" hidden>
+    <ul class="list-group">
+        <li class="list-group-item list-group-item-action"
+            data-action="add-single"
+            data-bs-toggle="dialog"
+            data-bs-target="#addBlockDialog">
+            Add block
+        </li>
+
+        <li class="list-group-item list-group-item-action"
+            data-action="add-multi"
+            data-bs-toggle="dialog"
+            data-bs-target="#addMultidayBlock">
+            Add multiple-day block
+        </li>
+
+        <li class="list-group-item list-group-item-action p-1"
+            data-action="delete-block">
+            <form id="deleteBlockForm" method="POST" action="/schedule/delete">
+                <input type="hidden" name="item_id" id="deleteBlockId">
+                <button type="submit" class="btn btn-link theme-danger btn-sm">
+                    Delete block
+                </button>
+            </form>
+        </li>
+
+    </ul>
+</div>
