@@ -1,4 +1,4 @@
-<dialog class="dialog" id="addBlockDialog">
+<dialog class="dialog" id="addBlockDialog" style="backdrop-filter: none !important;">
     <div class="dialog-header">
         <h1 class="dialog-title">Add a new block</h1>
 
@@ -85,6 +85,28 @@
                     <div class="combobox-no-results d-none">
                         No results found
                     </div>
+                </div>
+            </div>
+
+            <div id="repeatFields" class="mb-3" >
+                <fieldset>
+                    <legend class="form-label">Repeat on</legend>
+
+                    <div class="d-flex flex-wrap gap-3">
+                        <label><input type="checkbox" name="repeat_days[]" value="1"> Mon</label>
+                        <label><input type="checkbox" name="repeat_days[]" value="2"> Tue</label>
+                        <label><input type="checkbox" name="repeat_days[]" value="3"> Wed</label>
+                        <label><input type="checkbox" name="repeat_days[]" value="4"> Thu</label>
+                        <label><input type="checkbox" name="repeat_days[]" value="5"> Fri</label>
+                    </div>
+                </fieldset>
+
+                <div id="repeatUntilField" class="mt-3">
+                    <label class="form-label" for="repeatUntil">Repeat until</label>
+                    <input type="date"
+                           class="form-control"
+                           id="repeatUntil"
+                           name="repeat_until">
                 </div>
             </div>
 
