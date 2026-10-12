@@ -4,45 +4,51 @@
             data-bs-toggle="dialog" data-bs-target="#addBlockDialog">
             Add block
         </li>
-        <li class="list-group-item list-group-item-action" data-action="add-multi">
+        <li class="list-group-item list-group-item-action" data-action="add-multi"
+            data-bs-toggle="dialog" data-bs-target="#addMultidayBlock">
             Add multiple-day block
         </li>
     </ul>
 </div>
 
-<dialog class="dialog" id="addBlockDialog">
+<dialog class="dialog" id="addMultidayBlock">
     <div class="dialog-header">
-        <h1 class="dialog-title">Add a new block</h1>
+        <h1 class="dialog-title">Add a new multi-day block</h1>
         <button type="button" class="btn-close" data-bs-dismiss="dialog" aria-label="Close"></button>
     </div>
 
     <div class="dialog-body">
         <form id="addBlockForm" method="POST" action="/schedule/update">
-            <div class="form-field mb-3">
-                <div class="switch">
-                    <input type="checkbox" disabled value="" id="switchMdLabel" role="switch" switch>
+            <input type="hidden" name="is_one_time" value="1">
+            <div>
+                <div class="mb-3">
+                    <label class="form-label" for="multiDayEventName">Name</label>
+                    <input type="text" class="form-control"
+                           id="multiDayEventName" name="name"
+                           placeholder="Enter event name">
                 </div>
-                <label for="switchMdLabel">Create a one-time event?</label>
-            </div>
-            <input type="hidden" id="blockDate" name="start_date" value="">
-            <div class="mb-3">
-                <label class="form-label" for="course">Course</label>
-                <button class="form-control combobox-toggle" type="button"
-                        data-bs-toggle="combobox"
-                        data-bs-name="course_id"
-                        data-bs-placeholder="Select a course…"
-                        data-bs-search="true">
-                    <span class="combobox-value">Select a course…</span>
-                    <svg class="combobox-caret" width="10" height="16" viewBox="0 0 10 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0.46967 5.46967C0.762563 5.17678 1.23744 5.17678 1.53033 5.46967L5 8.93934L8.46967 5.46967C8.76256 5.17678 9.23744 5.17678 9.53033 5.46967C9.82322 5.76256 9.82322 6.23744 9.53033 6.53033L5.53033 10.5303C5.23744 10.8232 4.76256 10.8232 4.46967 10.5303L0.46967 6.53033C0.176777 6.23744 0.176777 5.76256 0.46967 5.46967Z" fill="currentcolor"/></svg>
-                </button>
-                <div class="menu">
-                    <div class="combobox-search">
-                        <input type="text" class="form-control combobox-search-input" placeholder="Search…" autocomplete="off" aria-label="Search…">
-                    </div>
-                    {% for course in courses %}
-                        <button class="menu-item" type="button" data-bs-value="{{ course.id }}">{{ course.name }} ({{ course.id }})</button>
-                    {% endfor %}
-                    <div class="combobox-no-results d-none">No results found</div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="multiBlockDate">Start date</label>
+                    <input type="date" id="multiBlockDate" class="form-control" name="start_date" value="">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="multiBlockEndDate">End date</label>
+                    <input type="date" class="form-control"  id="multiBlockEndDate" name="end_date" value="">
+                </div>
+
+                <div class="mb-3 d-flex align-items-center justify-content-between">
+                    <label class="form-label mb-0" for="multiDayColour">
+                        Event colour
+                    </label>
+
+                    <input type="color"
+                           class="form-control form-control-color"
+                           id="multiDayColour"
+                           name="colour"
+                           value="#3788d8"
+                           title="Choose event colour">
                 </div>
             </div>
 
@@ -60,3 +66,136 @@
         </form>
     </div>
 </dialog>
+
+<dialog class="dialog" id="addBlockDialog">
+    <div class="dialog-header">
+        <h1 class="dialog-title">Add a new block</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="dialog" aria-label="Close"></button>
+    </div>
+
+    <div class="dialog-body">
+        <form id="addBlockForm" method="POST" action="/schedule/update">
+            <div class="form-field mb-3">
+                <div class="switch">
+                    <input type="checkbox" id="switchMdLabel" role="switch">
+                </div>
+                <label for="switchMdLabel">Create a one-time event?</label>
+                <input type="hidden" id="isOneTime" name="is_one_time" value="0">
+            </div>
+
+            <input type="hidden" id="blockDate" name="start_date" value="">
+
+            <!-- Course selection: shown by default -->
+            <div id="courseFields" class="mb-3">
+                <label class="form-label" for="course">Course</label>
+
+                <button class="form-control combobox-toggle" type="button"
+                        data-bs-toggle="combobox"
+                        data-bs-name="course_id"
+                        data-bs-placeholder="Select a course…"
+                        data-bs-search="true">
+                    <span class="combobox-value">Select a course…</span>
+                    <svg class="combobox-caret" width="10" height="16"
+                         viewBox="0 0 10 16" fill="none"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0.46967 5.46967C0.762563 5.17678 1.23744 5.17678 1.53033 5.46967L5 8.93934L8.46967 5.46967C8.76256 5.17678 9.23744 5.17678 9.53033 5.46967C9.82322 5.76256 9.82322 6.23744 9.53033 6.53033L5.53033 10.5303C5.23744 10.8232 4.76256 10.8232 4.46967 10.5303L0.46967 6.53033C0.176777 6.23744 0.176777 5.76256 0.46967 5.46967Z"
+                              fill="currentcolor"/>
+                    </svg>
+                </button>
+
+                <div class="menu">
+                    <div class="combobox-search">
+                        <input type="text" class="form-control combobox-search-input"
+                               placeholder="Search…" autocomplete="off"
+                               aria-label="Search…">
+                    </div>
+
+                    {% for course in courses %}
+                        <button class="menu-item" type="button"
+                                data-bs-value="{{ course.id }}">
+                            {{ course.name }} ({{ course.id }})
+                        </button>
+                    {% endfor %}
+
+                    <div class="combobox-no-results d-none">No results found</div>
+                </div>
+            </div>
+
+            <!-- One-time event fields: hidden by default -->
+            <div id="eventFields" hidden>
+                <div class="mb-3">
+                    <label class="form-label" for="eventName">Name</label>
+                    <input type="text" class="form-control"
+                           id="eventName" name="name"
+                           placeholder="Enter event name">
+                </div>
+
+                <div class="mb-3 d-flex align-items-center justify-content-between">
+                    <label class="form-label mb-0" for="eventColour">
+                        Event colour
+                    </label>
+
+                    <input type="color"
+                           class="form-control form-control-color"
+                           id="eventColour"
+                           name="colour"
+                           value="#3788d8"
+                           title="Choose event colour">
+                </div>
+            </div>
+
+            <div class="dialog-footer">
+                <button type="button"
+                        class="btn-solid theme-secondary"
+                        data-bs-dismiss="dialog">
+                    Cancel
+                </button>
+
+                <button type="submit" class="btn-solid theme-primary">
+                    Save
+                </button>
+            </div>
+        </form>
+    </div>
+</dialog>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const toggle = document.getElementById('switchMdLabel');
+        const isOneTimeInput = document.getElementById('isOneTime');
+        const courseFields = document.getElementById('courseFields');
+        const eventFields = document.getElementById('eventFields');
+
+        const courseToggle = courseFields.querySelector(
+            '[data-bs-toggle="combobox"]'
+        );
+
+        const eventName = document.getElementById('eventName');
+        const eventColour = document.getElementById('eventColour');
+
+        function updateFields() {
+            const isOneTimeEvent = toggle.checked;
+
+            courseFields.hidden = isOneTimeEvent;
+            eventFields.hidden = !isOneTimeEvent;
+
+            // Enable only the fields for the selected mode.
+            // The combobox component can use data-bs-name to manage
+            // its own course_id value.
+            courseToggle.disabled = isOneTimeEvent;
+
+            eventName.disabled = !isOneTimeEvent;
+            eventColour.disabled = !isOneTimeEvent;
+
+            eventName.required = isOneTimeEvent;
+            courseToggle.required = !isOneTimeEvent;
+
+            isOneTimeInput.value = isOneTimeEvent ? '1' : '0';
+        }
+
+        toggle.addEventListener('change', updateFields);
+
+        // Set the initial state.
+        updateFields();
+    });
+</script>

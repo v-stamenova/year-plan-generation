@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const menu = document.getElementById('schedule-context-menu');
     const dateInput = document.getElementById('blockDate');
+    const multiDayDateInput = document.getElementById('multiBlockDate');
     const cells = document.querySelectorAll('.schedule-day[data-date]');
 
     let selectedDate = null;
@@ -42,6 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log('Add item on:', selectedDate);
                 break;
             case 'add-multi':
+                multiDayDateInput.value = selectedDate;
                 console.log('Add multi-day item starting on:', selectedDate);
                 break;
         }

@@ -48,9 +48,19 @@ class YearPlanController extends Controller
     public function update(Request $request) {
         $planItem = new PlanItem();
         $planItem->start_date = new \DateTime($request->get('start_date'));
-        $planItem->course_id = $request->get('course_id');
         $planItem->year_plan_id = 1; //Hardcoded
 
+        if (boolval($request->get('is_one_time'))) {
+            $planItem->name = $request->get('name');
+            $planItem->colour = $request->get('colour');
+
+            if ($request->get('end_date')) {
+                $planItem->end_date = new \DateTime($request->get('end_date'));
+            }
+        } else {
+            $planItem->course_id = $request->get('course_id');
+        }
+        
         $this->planItemRepository->create($planItem);
 
         return $this->responseFactory->redirect('/');
