@@ -14,4 +14,5 @@ class PlanItem
     public int $year_plan_id;
     public ?Course $course = null;
     public ?string $course_id = null;
+    public bool $is_main = false;
 }

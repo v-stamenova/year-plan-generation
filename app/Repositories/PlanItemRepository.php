@@ -84,15 +84,17 @@ class PlanItemRepository
                 end_date,
                 name,
                 colour,
-                course_id
-            ) VALUES (?, ?, ?, ?, ?, ?)",
+                course_id,
+                is_main
+            ) VALUES (?, ?, ?, ?, ?, ?, ?)",
             [
                 $item->year_plan_id,
                 $item->start_date->format('Y-m-d'),
                 $item->end_date?->format('Y-m-d'),
                 $item->name,
                 $item->colour,
-                $item->course_id
+                $item->course_id,
+                $item->is_main
             ]
         );
 
@@ -115,6 +117,7 @@ class PlanItemRepository
 
         $item->year_plan_id = (int)$row->year_plan_id;
         $item->course_id = $row->course_id;
+        $item->is_main = (bool)$row->is_main;
 
         return $item;
     }

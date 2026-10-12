@@ -13,9 +13,12 @@ CREATE TABLE plan_items (
     course_id TEXT
         REFERENCES courses(id)
         ON DELETE CASCADE
-        ON UPDATE CASCADE
+        ON UPDATE CASCADE,
+    is_main INTEGER DEFAULT 0 -- Used to store TRUE (1) or FALSE (0)
 );
 
 INSERT INTO plan_items (year_plan_id, start_date, end_date, name, colour) VALUES
-    (1, "2026-08-30", "2026-09-05",  "Start Block 1", "#B1A0C7"),
-    (1, "2026-10-18", "2026-10-24",  "Autumn Break", "#CCFFCC");
+    (1, "2026-08-30", "2026-09-05",  "Start Block 1", "#B1A0C7");
+
+INSERT INTO plan_items (year_plan_id, start_date, end_date, name, colour, is_main) VALUES
+    (1, "2026-10-18", "2026-10-24",  "Autumn Break", "#CCFFCC", 1);

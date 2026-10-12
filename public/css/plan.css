@@ -85,3 +85,37 @@
     z-index: 1080;
 }
 
+.schedule-week {
+    position: relative;
+}
+
+/* Regular multi-day items stay in their original row */
+.schedule-multiday-row {
+    grid-column: 3 / 10;
+    grid-row: 1;
+}
+
+/* Main items span the day cells below */
+.schedule-multiday-main {
+    position: absolute;
+
+    left: calc(
+            170px + (100% - 170px) / 7 * (var(--start-column) - 1)
+    );
+
+    width: calc(
+            (100% - 170px) / 7 * var(--span)
+    );
+
+    top: 0;
+    height: 100px;
+
+    z-index: 5;
+    box-sizing: border-box;
+    overflow: hidden;
+    white-space: nowrap;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
