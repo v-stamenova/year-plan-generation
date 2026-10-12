@@ -60,7 +60,7 @@ class YearPlanController extends Controller
         } else {
             $planItem->course_id = $request->get('course_id');
         }
-        
+
         $this->planItemRepository->create($planItem);
 
         return $this->responseFactory->redirect('/');

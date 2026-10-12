@@ -1,0 +1,40 @@
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const dialog = document.getElementById('addBlockDialog');
+
+        if (!dialog) return;
+
+        const toggle = dialog.querySelector('#switchMdLabel');
+        const isOneTimeInput = dialog.querySelector('#isOneTime');
+
+        const courseFields = dialog.querySelector('#courseFields');
+        const eventFields = dialog.querySelector('#eventFields');
+
+        const courseToggle = courseFields.querySelector(
+            '[data-bs-toggle="combobox"]'
+        );
+
+        const eventName = dialog.querySelector('#eventName');
+        const eventColour = dialog.querySelector('#eventColour');
+
+        function updateFields() {
+            const isOneTimeEvent = toggle.checked;
+
+            courseFields.hidden = isOneTimeEvent;
+            eventFields.hidden = !isOneTimeEvent;
+
+            courseToggle.disabled = isOneTimeEvent;
+
+            eventName.disabled = !isOneTimeEvent;
+            eventColour.disabled = !isOneTimeEvent;
+
+            eventName.required = isOneTimeEvent;
+
+            isOneTimeInput.value = isOneTimeEvent ? '1' : '0';
+        }
+
+        toggle.addEventListener('change', updateFields);
+
+        updateFields();
+    });
+</script>

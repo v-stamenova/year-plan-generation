@@ -3,9 +3,16 @@
 {% set pageTitle = "Home" %}
 
 {% block content %}
-    {% include 'components/schedule_context_menu.html.twig'  with {
-        courses: courses
-    } %}
+{#    {% include 'components/schedule_context_menu.html.twig'  with {#}
+{#        courses: courses#}
+{#    } %}#}
+    {% include "components/_context_menu.html.twig" %}
+
+    {% include "components/_add_block_dialog.html.twig" with { courses: courses } %}
+
+    {% include "components/_add_multiday_block_dialog.html.twig" %}
+
+    {% include "components/_scripts.html.twig" %}
     <link rel="stylesheet" href="/css/plan.css">
     <script src="/js/schedule_context_menu.js"></script>
 
