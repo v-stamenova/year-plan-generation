@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const menu = document.getElementById('schedule-context-menu');
+    const dateInput = document.getElementById('blockDate');
     const cells = document.querySelectorAll('.schedule-day[data-date]');
 
     let selectedDate = null;
@@ -37,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         switch (action) {
             case 'add-single':
+                dateInput.value = selectedDate;
                 console.log('Add item on:', selectedDate);
                 break;
             case 'add-multi':

@@ -15,5 +15,6 @@ class RouteProvider implements RouteProviderInterface
     public function register(Router $router, ServiceContainer $container): void
     {
         $router->addRoute('GET', '/', [$container->get(YearPlanController::class), 'index']);
+        $router->addRoute('POST', '/schedule/update', [$container->get(YearPlanController::class), 'update']);
     }
 }

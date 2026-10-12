@@ -3,7 +3,9 @@
 {% set pageTitle = "Home" %}
 
 {% block content %}
-    {% include 'components/schedule_context_menu.html.twig' %}
+    {% include 'components/schedule_context_menu.html.twig'  with {
+        courses: courses
+    } %}
     <link rel="stylesheet" href="/css/plan.css">
     <script src="/js/schedule_context_menu.js"></script>
 

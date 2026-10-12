@@ -7,6 +7,7 @@ use App\Controllers\ProjectController;
 use App\Controllers\TagController;
 use App\Controllers\TaskController;
 use App\Controllers\YearPlanController;
+use App\Repositories\CourseRepository;
 use App\Repositories\PlanItemRepository;
 use App\Repositories\ProjectRepository;
 use App\Repositories\ProjectRepositoryInterface;
@@ -35,7 +36,10 @@ class ServiceProvider implements ServiceProviderInterface
         $planItemRepository = new PlanItemRepository($database);
         $container->set(PlanItemRepository::class, $planItemRepository);
 
-        $yearPlanController = new YearPlanController($yearPlanRepository, $planItemRepository);
+        $courseRepository = new CourseRepository($database);
+        $container->set(CourseRepository::class, $courseRepository);
+
+        $yearPlanController = new YearPlanController($yearPlanRepository, $planItemRepository, $courseRepository);
         $container->set(YearPlanController::class, $yearPlanController);
     }
 }

@@ -2,21 +2,27 @@
 
 namespace App\Controllers;
 
+use App\Models\PlanItem;
+use App\Repositories\CourseRepository;
 use App\Repositories\PlanItemRepository;
 use App\Repositories\YearPlanRepository;
 use Framework\Controller;
+use Framework\Request;
 
 class YearPlanController extends Controller
 {
     private YearPlanRepository $yearPlanRepository;
     private PlanItemRepository $planItemRepository;
+    private CourseRepository $courseRepository;
 
     public function __construct(
         YearPlanRepository $yearPlanRepository,
-        PlanItemRepository $planItemRepository
+        PlanItemRepository $planItemRepository,
+        CourseRepository $courseRepository
     ) {
         $this->yearPlanRepository = $yearPlanRepository;
         $this->planItemRepository = $planItemRepository;
+        $this->courseRepository = $courseRepository;
     }
 
     public function index()
@@ -24,6 +30,7 @@ class YearPlanController extends Controller
         // hardcoded for now
         $yearPlan = $this->yearPlanRepository->findById(1);
         $planItems = $this->planItemRepository->findByYearPlanId(1);
+        $courses = $this->courseRepository->all();
 
         $weeks = $this->composeWeeks(
             $yearPlan->start_date->format('Y-m-d'),
@@ -34,7 +41,19 @@ class YearPlanController extends Controller
         return $this->responseFactory->view('index.html.twig', [
             'yearPlan' => $yearPlan,
             'weeks' => $weeks,
+            'courses' => $courses,
         ]);
+    }
+
+    public function update(Request $request) {
+        $planItem = new PlanItem();
+        $planItem->start_date = new \DateTime($request->get('start_date'));
+        $planItem->course_id = $request->get('course_id');
+        $planItem->year_plan_id = 1; //Hardcoded
+
+        $this->planItemRepository->create($planItem);
+
+        return $this->responseFactory->redirect('/');
     }
 
     private function composeWeeks(
