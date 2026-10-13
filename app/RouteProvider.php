@@ -19,6 +19,9 @@ class RouteProvider implements RouteProviderInterface
         $router->addRoute('POST', '/schedule/update', [$container->get(YearPlanController::class), 'update']);
         $router->addRoute('POST', '/schedule/delete', [$container->get(YearPlanController::class), 'delete']);
         $router->addRoute('GET', '/print', [$container->get(YearPlanController::class), 'print']);
+
         $router->addRoute('GET', '/year-plan', [$container->get(YearTemplateController::class), 'index']);
+        $router->addRoute('GET', '/year-plan/(?<id>\d+)', [$container->get(YearTemplateController::class), 'show']);
+
     }
 }

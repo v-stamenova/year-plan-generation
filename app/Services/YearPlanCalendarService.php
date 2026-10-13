@@ -6,13 +6,14 @@ use App\DTOs\CalendarDay;
 use App\DTOs\CalendarWeek;
 use App\DTOs\MultiDaySegment;
 use App\Models\PlanItem;
+use App\Models\PlanItemTemplate;
 use DateTimeImmutable;
 use DateTimeInterface;
 
 final class YearPlanCalendarService
 {
     /**
-     * @param PlanItem[] $planItems
+     * @param PlanItem[] | PlanItemTemplate[] $planItems
      * @return array<int, CalendarWeek> keyed by ISO week number
      */
     public function buildWeeks(
@@ -64,7 +65,7 @@ final class YearPlanCalendarService
     }
 
     /** @param array<int, CalendarWeek> $weeks */
-    private function placeSingleDayItem(array $weeks, PlanItem $item): void
+    private function placeSingleDayItem(array $weeks, PlanItem|PlanItemTemplate $item): void
     {
         $key = $item->start_date->format('d-m-Y');
 
@@ -79,7 +80,7 @@ final class YearPlanCalendarService
     }
 
     /** @param array<int, CalendarWeek> $weeks */
-    private function placeMultiDayItem(array $weeks, PlanItem $item): void
+    private function placeMultiDayItem(array $weeks, PlanItem|PlanItemTemplate $item): void
     {
         $start = $this->toDay($item->start_date);
         $end   = $this->toDay($item->end_date);
@@ -216,5 +217,29 @@ final class YearPlanCalendarService
         }
 
         return true;
+    }
+
+    public function getRepeatDates(
+        string $startDate,
+        string $repeatUntil,
+        array $repeatDays
+    ): array {
+        $dates = [];
+
+        $start = new \DateTimeImmutable($startDate);
+        $end = new \DateTimeImmutable($repeatUntil);
+
+        $selectedDays = array_map('intval', $repeatDays);
+
+        for ($date = $start; $date <= $end; $date = $date->modify('+1 day')) {
+            // ISO weekday: Monday = 1, Sunday = 7
+            $dayOfWeek = (int) $date->format('N');
+
+            if (in_array($dayOfWeek, $selectedDays, true)) {
+                $dates[] = $date->format('Y-m-d');
+            }
+        }
+
+        return $dates;
     }
 }

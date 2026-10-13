@@ -61,13 +61,6 @@ class YearPlanController extends Controller
         );
     }
 
-    private function calendar()
-    {
-        return $this->responseFactory->view('components/_calendar.html.twig', [
-            'weeks' => $this->weeks(),
-        ]);
-    }
-
     public function print(Request $request)
     {
         $yearPlan = $this->yearPlanRepository->findById(1);
@@ -93,7 +86,9 @@ class YearPlanController extends Controller
             $this->planItemRepository->delete($item);
         }
 
-        return $this->calendar();
+        return $this->responseFactory->view('components/_calendar.html.twig', [
+            'weeks' => $this->weeks(),
+        ]);
     }
 
     public function update(Request $request) {
@@ -114,7 +109,7 @@ class YearPlanController extends Controller
         }
 
         if ($request->get('repeat_until') && count($request->getMany('repeat_days')) > 0) {
-            $dates = $this->getRepeatDates($request->get('start_date'), $request->get('repeat_until'), $request->getMany('repeat_days'));
+            $dates = $this->calendarService->getRepeatDates($request->get('start_date'), $request->get('repeat_until'), $request->getMany('repeat_days'));
 
             foreach ($dates as $date) {
                 $planItem->start_date = new \DateTime($date);
@@ -124,31 +119,9 @@ class YearPlanController extends Controller
             $this->planItemRepository->create($planItem);
         }
 
-        return $this->calendar();
-    }
-
-    private function getRepeatDates(
-        string $startDate,
-        string $repeatUntil,
-        array $repeatDays
-    ): array {
-        $dates = [];
-
-        $start = new \DateTimeImmutable($startDate);
-        $end = new \DateTimeImmutable($repeatUntil);
-
-        $selectedDays = array_map('intval', $repeatDays);
-
-        for ($date = $start; $date <= $end; $date = $date->modify('+1 day')) {
-            // ISO weekday: Monday = 1, Sunday = 7
-            $dayOfWeek = (int) $date->format('N');
-
-            if (in_array($dayOfWeek, $selectedDays, true)) {
-                $dates[] = $date->format('Y-m-d');
-            }
-        }
-
-        return $dates;
+        return $this->responseFactory->view('components/_calendar.html.twig', [
+            'weeks' => $this->weeks(),
+        ]);
     }
 
 }

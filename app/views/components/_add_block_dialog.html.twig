@@ -16,6 +16,8 @@
               hx-post="/schedule/update"
               hx-target="#calendar">
 
+            {% if courses|default(null) %}
+
             <div class="form-field mb-3">
                 <div class="switch">
                     <input type="checkbox"
@@ -27,11 +29,13 @@
                     Create a one-time event?
                 </label>
 
+
                 <input type="hidden"
                        id="isOneTime"
                        name="is_one_time"
                        value="0">
             </div>
+            {% endif %}
 
             <input type="hidden"
                    id="blockDate"
@@ -39,6 +43,7 @@
                    value="">
 
             <!-- Course selection -->
+            {% if courses|default(null) %}
             <div id="courseFields" class="mb-3">
                 <label class="form-label" for="course">
                     Course
@@ -112,8 +117,11 @@
                 </div>
             </div>
 
+            {% endif %}
+
+
             <!-- One-time event fields -->
-            <div id="eventFields" hidden>
+            <div id="eventFields"  {% if courses|default(null) %} hidden {% endif %}>
                 <div class="mb-3">
                     <label class="form-label" for="eventName">
                         Name

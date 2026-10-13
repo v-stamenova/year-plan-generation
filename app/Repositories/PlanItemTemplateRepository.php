@@ -45,7 +45,7 @@ class PlanItemTemplateRepository
             c.colour AS course_colour
             FROM plan_item_templates pi
             LEFT JOIN courses c ON c.id = pi.course_id
-            WHERE pi.year_plan_id = ?",
+            WHERE pi.year_template_id = ?",
             [$yearPlanId]
         )->fetchAll();
 

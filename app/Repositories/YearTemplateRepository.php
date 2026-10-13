@@ -29,6 +29,20 @@ class YearTemplateRepository
         return $templates;
     }
 
+    public function findById(int $id): ?YearTemplate
+    {
+        $row = $this->database->run(
+            "SELECT * FROM year_templates WHERE id = ?",
+            [$id]
+        )->fetch();
+
+        if (!$row) {
+            return null;
+        }
+
+        return $this->fromDbRow($row);
+    }
+
     private function fromDbRow(mixed $row): YearTemplate
     {
         $template = new YearTemplate();

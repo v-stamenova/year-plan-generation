@@ -3,5 +3,71 @@
 {% set pageTitle = "Templates" %}
 
 {% block content %}
-    Year template page
+    <div id="templates">
+
+        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 2.5rem;">
+            <h1>Year Templates</h1>
+
+            <a class="theme-primary btn-solid" href="#" style="margin-left: auto;">
+                + Create Template
+            </a>
+        </div>
+
+        <div class="row">
+            {% for template in yearTemplates %}
+                <a href="/year-plan/{{ template.id }}">
+                    <div class="sm:col-4 mb-3 sm:mb-0">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <h4 class="card-title">
+                                    {{ template.name ?? (
+                                    'Year Plan Template '
+                                    ~ template.start_date|date('Y')
+                                    ~ '-'
+                                    ~ template.end_date|date('Y')
+                                    ) }}
+                                </h4>
+
+                                <p class="card-text">
+                                    <strong>Start date:</strong>
+                                    {{ template.start_date|date('d-m-Y') }}
+                                </p>
+
+                                <p class="card-text">
+                                    <strong>End date:</strong>
+                                    {{ template.end_date|date('d-m-Y') }}
+                                </p>
+
+                                {# Actions #}
+                                {#                            <div style="display: flex; gap: 1rem; align-items: center; width: 100%; margin-top: 1rem;">#}
+                                {#                            <a#}
+                                {#                                   class="btn-solid theme-inverse">#}
+                                {#                                    Edit#}
+                                {#                                </a>#}
+
+                                {#                                <form method="post"#}
+                                {#                                      onsubmit="return confirm('Are you sure you want to delete this template?');">#}
+
+                                {#                                    <input type="hidden"#}
+                                {#                                           name="_token">#}
+
+                                {#                                    <button type="submit" class="btn-solid theme-danger">#}
+                                {#                                        Delete#}
+                                {#                                    </button>#}
+                                {#                                </form>#}
+                                {#                            </div>#}
+
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            {% else %}
+                <div class="col-12">
+                    <p>No year templates found. Create your first template to get started.</p>
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
 {% endblock %}
