@@ -1,34 +1,12 @@
 {% extends "partials/base.html.twig" %}
 
-{% set pageTitle = "Home" %}
+{% set pageTitle = "Template" %}
 
 {% block content %}
-    {#    {% include 'components/schedule_context_menu.html.twig'  with {#}
-    {#        courses: courses#}
-    {#    } %}#}
-    {% include "components/_context_menu.html.twig" %}
-
-    {% include "components/_add_block_dialog.html.twig" with { courses: courses } %}
-
-    {% include "components/_add_multiday_block_dialog.html.twig" %}
-
-    {% include "components/_scripts.html.twig" %}
-    <link rel="stylesheet" href="/css/plan.css">
-    <script src="/js/schedule_context_menu.js"></script>
-
-    <div class="container text-center">
-        <h3>{{ template.name ?? (
-            'Year Plan Template '
-            ~ template.start_date|date('Y')
-            ~ '-'
-            ~ template.end_date|date('Y')
-            ) }}</h3>
-        <br>
-
-        {% include "components/_calendar_header.html.twig" %}
-
-        <div id="calendar">
-            {% include "components/_calendar.html.twig" %}
-        </div>
-    </div>
+    {% include "components/_plan_page.html.twig" with {
+        title: yearPlan.name ?? ('Year Plan Template ' ~ yearPlan.start_date|date('Y') ~ '-' ~ yearPlan.end_date|date('Y')),
+        weeks: weeks,
+        courses: courses|default(null),
+        baseUrl: '/year-plan/' ~ yearPlan.id
+    } only %}
 {% endblock %}

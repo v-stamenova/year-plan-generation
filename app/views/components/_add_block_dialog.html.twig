@@ -12,8 +12,8 @@
     <div class="dialog-body">
         <form id="addBlockForm"
               method="POST"
-              action="/schedule/update"
-              hx-post="/schedule/update"
+              action="{{ baseUrl|default('') }}/schedule/update"
+              hx-post="{{ baseUrl|default('') }}/schedule/update"
               hx-target="#calendar">
 
             {% if courses|default(null) %}

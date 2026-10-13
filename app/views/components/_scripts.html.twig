@@ -1,42 +1,36 @@
 <script>
+    {# Toggles between course and one-time-event fields in the add-block dialog.
+       The course fields only exist when the page was given courses, so everything is optional. #}
     document.addEventListener('DOMContentLoaded', () => {
         const dialog = document.getElementById('addBlockDialog');
+        const toggle = dialog?.querySelector('#switchMdLabel');
 
-        if (!dialog) return;
+        if (!toggle) return;
 
-        const toggle = dialog.querySelector('#switchMdLabel');
         const isOneTimeInput = dialog.querySelector('#isOneTime');
-
         const courseFields = dialog.querySelector('#courseFields');
         const eventFields = dialog.querySelector('#eventFields');
         const repeatFields = dialog.querySelector('#repeatFields');
-
-        const courseToggle = courseFields.querySelector(
-            '[data-bs-toggle="combobox"]'
-        );
-
+        const courseToggle = courseFields?.querySelector('[data-bs-toggle="combobox"]');
         const eventName = dialog.querySelector('#eventName');
         const eventColour = dialog.querySelector('#eventColour');
 
         function updateFields() {
             const isOneTimeEvent = toggle.checked;
 
-            courseFields.hidden = isOneTimeEvent;
-            repeatFields.hidden = isOneTimeEvent;
-            eventFields.hidden = !isOneTimeEvent;
-
-            courseToggle.disabled = isOneTimeEvent;
+            if (courseFields) courseFields.hidden = isOneTimeEvent;
+            if (repeatFields) repeatFields.hidden = isOneTimeEvent;
+            if (eventFields) eventFields.hidden = !isOneTimeEvent;
+            if (courseToggle) courseToggle.disabled = isOneTimeEvent;
 
             eventName.disabled = !isOneTimeEvent;
             eventColour.disabled = !isOneTimeEvent;
-
             eventName.required = isOneTimeEvent;
 
             isOneTimeInput.value = isOneTimeEvent ? '1' : '0';
         }
 
         toggle.addEventListener('change', updateFields);
-
         updateFields();
     });
 </script>

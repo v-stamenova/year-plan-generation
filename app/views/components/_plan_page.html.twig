@@ -1,0 +1,29 @@
+{#
+    Shared body for viewing/editing a plan, used by both year plans and year templates.
+
+    Parameters:
+      title    (string)  Heading shown above the calendar.
+      weeks    (array)   Calendar weeks to render.
+      baseUrl  (string)  URL prefix of the plan, e.g. "" or "/year-plan/3". Form actions are built from it.
+      courses  (array)   Optional. When given, blocks can be created from courses.
+#}
+{% set baseUrl = baseUrl|default('') %}
+
+{% include "components/_context_menu.html.twig" with { baseUrl: baseUrl } only %}
+{% include "components/_add_block_dialog.html.twig" with { baseUrl: baseUrl, courses: courses|default(null) } only %}
+{% include "components/_add_multiday_block_dialog.html.twig" with { baseUrl: baseUrl } only %}
+{% include "components/_scripts.html.twig" %}
+
+<link rel="stylesheet" href="/css/plan.css">
+<script src="/js/schedule_context_menu.js"></script>
+
+<div class="container text-center">
+    <h3>{{ title }}</h3>
+    <br>
+
+    {% include "components/_calendar_header.html.twig" %}
+
+    <div id="calendar">
+        {% include "components/_calendar.html.twig" with { weeks: weeks } only %}
+    </div>
+</div>

@@ -4,10 +4,10 @@
     <link rel="stylesheet" href="/css/plan.css">
 
     <div class="container text-center">
-        <h3 class="print-hide">Year schedule ICT - first year 2026/2027</h3>
+        <h3 class="print-hide">{{ title|default('Year schedule ICT - first year 2026/2027') }}</h3>
         <p class="print-hide">{{ from|date('d M Y') }} - {{ to|date('d M Y') }}</p>
 
         {% include "components/_calendar_header.html.twig" %}
-        {% include "components/_calendar.html.twig" %}
+        {% include "components/_calendar.html.twig" with { weeks: weeks } only %}
     </div>
 {% endblock %}

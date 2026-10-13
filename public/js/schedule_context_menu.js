@@ -55,7 +55,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Get the schedule block ID if the right-click was on a block.
         const block = event.target.closest('.scheduled-block');
         const blockId = block ? block.id : null;
-        console.log(block)
 
         const date = cell.dataset.date;
         const isBlockMenu = cell.dataset.menu === 'block';

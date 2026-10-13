@@ -3,27 +3,10 @@
 {% set pageTitle = "Home" %}
 
 {% block content %}
-    {#    {% include 'components/schedule_context_menu.html.twig'  with {#}
-    {#        courses: courses#}
-    {#    } %}#}
-    {% include "components/_context_menu.html.twig" %}
-
-    {% include "components/_add_block_dialog.html.twig" with { courses: courses } %}
-
-    {% include "components/_add_multiday_block_dialog.html.twig" %}
-
-    {% include "components/_scripts.html.twig" %}
-    <link rel="stylesheet" href="/css/plan.css">
-    <script src="/js/schedule_context_menu.js"></script>
-
-    <div class="container text-center">
-        <h3>Year schedule ICT - first year 2026/2027</h3>
-        <br>
-
-        {% include "components/_calendar_header.html.twig" %}
-
-        <div id="calendar">
-            {% include "components/_calendar.html.twig" %}
-        </div>
-    </div>
+    {% include "components/_plan_page.html.twig" with {
+        title: yearPlan.name ?? ('Year schedule ICT - year ' ~ yearPlan.student_year ~ ' ' ~ yearPlan.start_date|date('Y') ~ '/' ~ yearPlan.end_date|date('Y')),
+        weeks: weeks,
+        courses: courses,
+        baseUrl: ''
+    } only %}
 {% endblock %}

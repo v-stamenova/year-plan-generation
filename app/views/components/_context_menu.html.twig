@@ -1,46 +1,43 @@
+{#
+    Right-click menus for the calendar.
+    Parameters:
+      baseUrl (string)  URL prefix of the plan; the delete form posts to {baseUrl}/schedule/delete.
+#}
+{% set baseUrl = baseUrl|default('') %}
+{% set addItems %}
+    <li class="list-group-item list-group-item-action"
+        data-action="add-single"
+        data-bs-toggle="dialog"
+        data-bs-target="#addBlockDialog">
+        Add block
+    </li>
+
+    <li class="list-group-item list-group-item-action"
+        data-action="add-multi"
+        data-bs-toggle="dialog"
+        data-bs-target="#addMultidayBlock">
+        Add multiple-day block
+    </li>
+{% endset %}
+
 <div id="schedule-context-menu" class="dropdown-menu" hidden>
     <ul class="list-group">
-        <li class="list-group-item list-group-item-action"
-            data-action="add-single"
-            data-bs-toggle="dialog"
-            data-bs-target="#addBlockDialog">
-            Add block
-        </li>
-
-        <li class="list-group-item list-group-item-action"
-            data-action="add-multi"
-            data-bs-toggle="dialog"
-            data-bs-target="#addMultidayBlock">
-            Add multiple-day block
-        </li>
+        {{ addItems }}
     </ul>
 </div>
 
 <div id="schedule-context-menu-block" class="dropdown-menu z-popover" hidden>
     <ul class="list-group">
-        <li class="list-group-item list-group-item-action"
-            data-action="add-single"
-            data-bs-toggle="dialog"
-            data-bs-target="#addBlockDialog">
-            Add block
-        </li>
-
-        <li class="list-group-item list-group-item-action"
-            data-action="add-multi"
-            data-bs-toggle="dialog"
-            data-bs-target="#addMultidayBlock">
-            Add multiple-day block
-        </li>
+        {{ addItems }}
 
         <li class="list-group-item list-group-item-action p-1"
             data-action="delete-block">
-            <form id="deleteBlockForm" method="POST" action="/schedule/delete" hx-post="/schedule/delete" hx-target="#calendar">
+            <form id="deleteBlockForm" method="POST" action="{{ baseUrl }}/schedule/delete" hx-post="{{ baseUrl }}/schedule/delete" hx-target="#calendar">
                 <input type="hidden" name="item_id" id="deleteBlockId">
                 <button type="submit" class="btn btn-link theme-danger btn-sm">
                     Delete block
                 </button>
             </form>
         </li>
-
     </ul>
 </div>
