@@ -7,6 +7,7 @@ use App\Controllers\ProjectController;
 use App\Controllers\TagController;
 use App\Controllers\TaskController;
 use App\Controllers\YearPlanController;
+use App\Controllers\YearTemplateController;
 use App\Repositories\CourseRepository;
 use App\Repositories\PlanItemRepository;
 use App\Repositories\ProjectRepository;
@@ -15,6 +16,7 @@ use App\Repositories\TagRepository;
 use App\Repositories\TaskRepository;
 use App\Repositories\TaskRepositoryInterface;
 use App\Repositories\YearPlanRepository;
+use App\Repositories\YearTemplateRepository;
 use Exception;
 use Framework\Database;
 use Framework\ResponseFactory;
@@ -41,5 +43,9 @@ class ServiceProvider implements ServiceProviderInterface
 
         $yearPlanController = new YearPlanController($yearPlanRepository, $planItemRepository, $courseRepository);
         $container->set(YearPlanController::class, $yearPlanController);
+
+        $yearTemplateRepository = new YearTemplateRepository($database);
+        $yearTemplateController = new YearTemplateController($yearTemplateRepository);
+        $container->set(YearTemplateController::class, $yearTemplateController);
     }
 }

@@ -1,6 +1,13 @@
+:root {
+    --week-col: 70px;
+    --block-week-col: 100px;
+    --edge-col: minmax(0, 1fr);
+    --day-columns: var(--edge-col) repeat(5, minmax(0, 1fr)) var(--edge-col);
+}
+
 .schedule-grid {
     display: grid;
-    grid-template-columns: 70px 100px repeat(7, minmax(0, 1fr));
+    grid-template-columns: var(--week-col) var(--block-week-col) var(--day-columns);
 }
 
 .schedule-header {
@@ -9,7 +16,7 @@
 
 .schedule-week {
     display: grid;
-    grid-template-columns: 70px 100px repeat(7, minmax(0, 1fr));
+    grid-template-columns: var(--week-col) var(--block-week-col) var(--day-columns);
     grid-template-rows: auto 100px;
     align-items: stretch;
     min-width: 0;
@@ -43,7 +50,7 @@
     grid-column: 3 / 10;
     grid-row: 1;
     display: grid;
-    grid-template-columns: repeat(7, minmax(0, 1fr));
+    grid-template-columns: var(--day-columns);
     grid-auto-rows: 30px;
     align-content: start;
     min-width: 0;
@@ -97,17 +104,9 @@
 
 /* Main items span the day cells below */
 .schedule-multiday-main {
-    position: absolute;
-
-    left: calc(
-            170px + (100% - 170px) / 7 * (var(--start-column) - 1)
-    );
-
-    width: calc(
-            (100% - 170px) / 7 * var(--span)
-    );
-
-    top: 0;
+    grid-column: calc(var(--start-column) + 2) / span var(--span);
+    grid-row: 1 / 3;
+    align-self: start;
     height: 100px;
 
     z-index: 5;
@@ -118,4 +117,37 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+@page {
+    size: A3 portrait;
+}
+
+@media print {
+    :root {
+        --week-col: 40px;
+        --block-week-col: 55px;
+        --edge-col: 55px;
+    }
+
+    * {
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+
+    .navbar,
+    form {
+        display: none !important;
+    }
+
+    .schedule-week {
+        break-inside: avoid;
+    }
+
+    .schedule-edge-day {
+        padding-inline: calc((100% - 4ch) / 4);
+        text-align: center;
+        overflow-wrap: anywhere;
+        font-size: 1rem;
+    }
 }

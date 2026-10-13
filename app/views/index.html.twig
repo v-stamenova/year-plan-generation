@@ -19,17 +19,8 @@
     <div class="container text-center">
         <h3>Year schedule ICT - first year 2026/2027</h3>
         <br>
-        <div class="schedule-grid schedule-header">
-            <div class="border">Week</div>
-            <div class="border">Block Week</div>
-            <div class="border">Sunday</div>
-            <div class="border">Monday</div>
-            <div class="border">Tuesday</div>
-            <div class="border">Wednesday</div>
-            <div class="border">Thursday</div>
-            <div class="border">Friday</div>
-            <div class="border">Saturday</div>
-        </div>
+
+        {% include "components/_calendar_header.html.twig" %}
 
         <div id="calendar">
             {% include "components/_calendar.html.twig" %}

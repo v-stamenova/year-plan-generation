@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\DTOs\CalendarWeek;
 use App\Models\PlanItem;
 use App\Repositories\CourseRepository;
 use App\Repositories\PlanItemRepository;
@@ -48,17 +49,41 @@ class YearPlanController extends Controller
         ]);
     }
 
-    private function calendar()
+    private function weeks(): array
     {
         $yearPlan = $this->yearPlanRepository->findById(1);
         $planItems = $this->planItemRepository->findByYearPlanId(1);
 
+        return $this->calendarService->buildWeeks(
+            $yearPlan->start_date,
+            $yearPlan->end_date,
+            $planItems
+        );
+    }
+
+    private function calendar()
+    {
         return $this->responseFactory->view('components/_calendar.html.twig', [
-            'weeks' => $this->calendarService->buildWeeks(
-                $yearPlan->start_date,
-                $yearPlan->end_date,
-                $planItems
-            ),
+            'weeks' => $this->weeks(),
+        ]);
+    }
+
+    public function print(Request $request)
+    {
+        $yearPlan = $this->yearPlanRepository->findById(1);
+
+        $from = new \DateTimeImmutable($request->get('from') ?: $yearPlan->start_date->format('Y-m-d'));
+        $to = new \DateTimeImmutable($request->get('to') ?: $yearPlan->end_date->format('Y-m-d'));
+
+        $weeks = array_filter(
+            $this->weeks(),
+            fn (CalendarWeek $week) => $week->endDate() >= $from && $week->startDate <= $to
+        );
+
+        return $this->responseFactory->view('print.html.twig', [
+            'weeks' => $weeks,
+            'from'  => $from,
+            'to'    => $to,
         ]);
     }
 

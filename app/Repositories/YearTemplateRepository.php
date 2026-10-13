@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 use App\Models\YearTemplate;
 use Framework\Database;
-use pq\DateTime;
+use DateTime;
 
 class YearTemplateRepository
 {
