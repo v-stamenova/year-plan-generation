@@ -29,11 +29,11 @@ class YearPlanController extends Controller
         $this->calendarService = new YearPlanCalendarService();
     }
 
-    public function index()
+    public function show(Request $request)
     {
         // hardcoded for now
-        $yearPlan  = $this->yearPlanRepository->findById(1);
-        $planItems = $this->planItemRepository->findByYearPlanId(1);
+        $yearPlan  = $this->yearPlanRepository->findById($request->get('id'));
+        $planItems = $this->planItemRepository->findByYearPlanId($request->get('id'));
         $courses   = $this->courseRepository->all();
 
         $weeks = $this->calendarService->buildWeeks(
@@ -42,7 +42,7 @@ class YearPlanController extends Controller
             $planItems
         );
 
-        return $this->responseFactory->view('index.html.twig', [
+        return $this->responseFactory->view('year-plans/show.html.twig', [
             'yearPlan' => $yearPlan,
             'weeks'    => $weeks,
             'courses'  => $courses,
@@ -94,7 +94,7 @@ class YearPlanController extends Controller
     public function update(Request $request) {
         $planItem = new PlanItem();
         $planItem->start_date = new \DateTime($request->get('start_date'));
-        $planItem->year_plan_id = 1; //Hardcoded
+        $planItem->year_plan_id = $request->get('id');
 
         if (boolval($request->get('is_one_time'))) {
             $planItem->name = $request->get('name');
@@ -123,5 +123,4 @@ class YearPlanController extends Controller
             'weeks' => $this->weeks(),
         ]);
     }
-
 }

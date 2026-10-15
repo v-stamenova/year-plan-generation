@@ -7,6 +7,6 @@
         title: yearPlan.name ?? ('Year Plan Template ' ~ yearPlan.start_date|date('Y') ~ '-' ~ yearPlan.end_date|date('Y')),
         weeks: weeks,
         courses: courses|default(null),
-        baseUrl: '/year-plan/' ~ yearPlan.id
+        baseUrl: '/template/' ~ yearPlan.id
     } only %}
 {% endblock %}

@@ -15,13 +15,17 @@ class RouteProvider implements RouteProviderInterface
      */
     public function register(Router $router, ServiceContainer $container): void
     {
-        $router->addRoute('GET', '/', [$container->get(YearPlanController::class), 'index']);
-        $router->addRoute('POST', '/schedule/update', [$container->get(YearPlanController::class), 'update']);
-        $router->addRoute('POST', '/schedule/delete', [$container->get(YearPlanController::class), 'delete']);
-        $router->addRoute('GET', '/print', [$container->get(YearPlanController::class), 'print']);
+//        $router->addRoute('GET', '/year-plan', [$container->get(YearPlanController::class), 'index']);
+        $router->addRoute('GET', '/year-plan/(?<id>\d+)', [$container->get(YearPlanController::class), 'show']);
+        $router->addRoute('POST', '/year-plan/(?<id>\d+)/update', [$container->get(YearPlanController::class), 'update']);
+        $router->addRoute('POST', '/year-plan/(?<id>\d+)/delete', [$container->get(YearPlanController::class), 'delete']);
+        $router->addRoute('GET', '/year-plan/(?<id>\d+)/print', [$container->get(YearPlanController::class), 'print']);
 
-        $router->addRoute('GET', '/year-plan', [$container->get(YearTemplateController::class), 'index']);
-        $router->addRoute('GET', '/year-plan/(?<id>\d+)', [$container->get(YearTemplateController::class), 'show']);
+        $router->addRoute('GET', '/template', [$container->get(YearTemplateController::class), 'index']);
+        $router->addRoute('GET', '/template/(?<id>\d+)', [$container->get(YearTemplateController::class), 'show']);
+        $router->addRoute('POST', '/template/(?<id>\d+)/update', [$container->get(YearTemplateController::class), 'update']);
+        $router->addRoute('POST', '/template/(?<id>\d+)/delete', [$container->get(YearTemplateController::class), 'delete']);
+        $router->addRoute('GET', '/template/(?<id>\d+)/print', [$container->get(YearTemplateController::class), 'print']);
 
     }
 }

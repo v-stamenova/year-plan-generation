@@ -2,7 +2,8 @@
 
 namespace App\Controllers;
 
-use App\Models\YearPlan;
+use App\DTOs\CalendarWeek;
+use App\Models\PlanItemTemplate;
 use App\Repositories\PlanItemTemplateRepository;
 use App\Repositories\YearTemplateRepository;
 use App\Services\YearPlanCalendarService;
@@ -42,16 +43,65 @@ class YearTemplateController extends Controller
         ]);
     }
 
-
     private function weeks(): array
     {
-        $yearPlan = $this->yearPlanRepository->findById(1);
-        $planItems = $this->planItemRepository->findByYearPlanId(1);
+        $yearPlan = $this->yearTemplateRepository->findById(1);
+        $planItems = $this->planItemTemplateRepository->findByYearPlanId(1);
 
         return $this->calendarService->buildWeeks(
             $yearPlan->start_date,
             $yearPlan->end_date,
             $planItems
         );
+    }
+
+    public function print(Request $request)
+    {
+        $yearPlan = $this->yearTemplateRepository->findById(1);
+
+        $from = new \DateTimeImmutable($request->get('from') ?: $yearPlan->start_date->format('Y-m-d'));
+        $to = new \DateTimeImmutable($request->get('to') ?: $yearPlan->end_date->format('Y-m-d'));
+
+        $weeks = array_filter(
+            $this->weeks(),
+            fn (CalendarWeek $week) => $week->endDate() >= $from && $week->startDate <= $to
+        );
+
+        return $this->responseFactory->view('print.html.twig', [
+            'weeks' => $weeks,
+            'from'  => $from,
+            'to'    => $to,
+        ]);
+    }
+
+    public function delete(Request $request) {
+        $item = $this->planItemTemplateRepository->findById($request->get('item_id'));
+        if ($item) {
+            $this->planItemTemplateRepository->delete($item);
+        }
+
+        return $this->responseFactory->view('components/_calendar.html.twig', [
+            'weeks' => $this->weeks(),
+        ]);
+    }
+
+    public function update(Request $request) {
+        $planItem = new PlanItemTemplate();
+        $planItem->start_date = new \DateTime($request->get('start_date'));
+        $planItem->year_template_id = $request->get('id');
+
+        $planItem->name = $request->get('name');
+        $planItem->colour = $request->get('colour');
+        $planItem->is_main = (bool)$request->get('allDay');
+
+        if ($request->get('end_date')) {
+            $planItem->end_date = new \DateTime($request->get('end_date'));
+        }
+
+        $this->planItemTemplateRepository->create($planItem);
+
+        return $this->responseFactory->view('components/_calendar.html.twig', [
+            'weeks' => $this->weeks(),
+        ]);
     }
 }

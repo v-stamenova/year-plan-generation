@@ -84,7 +84,7 @@ class PlanItemTemplateRepository
     public function create(PlanItemTemplate $item): int
     {
         $this->database->run(
-            "INSERT INTO plan_items (
+            "INSERT INTO plan_item_templates (
                 year_template_id,
                 start_date,
                 end_date,
@@ -111,7 +111,7 @@ class PlanItemTemplateRepository
 
     public function delete(PlanItemTemplate $item): bool
     {
-        $stmt = $this->database->run("DELETE FROM plan_items WHERE id = :id", ["id" => $item->id]);
+        $stmt = $this->database->run("DELETE FROM plan_item_templates WHERE id = :id", ["id" => $item->id]);
 
         return $stmt->rowCount() > 0;
     }

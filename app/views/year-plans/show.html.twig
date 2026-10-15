@@ -1,0 +1,12 @@
+{% extends "partials/base.html.twig" %}
+
+{% set pageTitle = "Home" %}
+
+{% block content %}
+    {% include "components/_plan_page.html.twig" with {
+        title: yearPlan.name ?? ('Year schedule ICT - year ' ~ yearPlan.student_year ~ ' ' ~ yearPlan.start_date|date('Y') ~ '/' ~ yearPlan.end_date|date('Y')),
+        weeks: weeks,
+        courses: courses,
+        baseUrl: '/year-plan/' ~ yearPlan.id
+    } only %}
+{% endblock %}
