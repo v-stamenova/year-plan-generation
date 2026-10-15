@@ -29,6 +29,11 @@ class YearPlanController extends Controller
         $this->calendarService = new YearPlanCalendarService();
     }
 
+    public function index() {
+        $yearTemplates = $this->yearPlanRepository->all();
+        return $this->responseFactory->view('year-plans/index.html.twig', compact('yearTemplates'));
+    }
+
     public function show(Request $request)
     {
         // hardcoded for now
