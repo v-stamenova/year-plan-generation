@@ -3,7 +3,7 @@
 namespace App;
 
 use App\Controllers\YearPlanController;
-use App\Controllers\YearTemplateController;
+use App\Controllers\TemplateController;
 use Framework\Router;
 use Framework\RouteProviderInterface;
 use Framework\ServiceContainer;
@@ -24,11 +24,11 @@ class RouteProvider implements RouteProviderInterface
         $router->addRoute('POST', '/year-plan/(?<id>\d+)/delete', [$container->get(YearPlanController::class), 'delete']);
         $router->addRoute('GET', '/year-plan/(?<id>\d+)/print', [$container->get(YearPlanController::class), 'print']);
 
-        $router->addRoute('GET', '/template', [$container->get(YearTemplateController::class), 'index']);
-        $router->addRoute('GET', '/template/(?<id>\d+)', [$container->get(YearTemplateController::class), 'show']);
-        $router->addRoute('POST', '/template/(?<id>\d+)/update', [$container->get(YearTemplateController::class), 'update']);
-        $router->addRoute('POST', '/template/(?<id>\d+)/delete', [$container->get(YearTemplateController::class), 'delete']);
-        $router->addRoute('GET', '/template/(?<id>\d+)/print', [$container->get(YearTemplateController::class), 'print']);
+        $router->addRoute('GET', '/template', [$container->get(TemplateController::class), 'index']);
+        $router->addRoute('GET', '/template/(?<id>\d+)', [$container->get(TemplateController::class), 'show']);
+        $router->addRoute('POST', '/template/(?<id>\d+)/update', [$container->get(TemplateController::class), 'update']);
+        $router->addRoute('POST', '/template/(?<id>\d+)/delete', [$container->get(TemplateController::class), 'delete']);
+        $router->addRoute('GET', '/template/(?<id>\d+)/print', [$container->get(TemplateController::class), 'print']);
 
     }
 }

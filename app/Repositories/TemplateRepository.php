@@ -2,11 +2,11 @@
 
 namespace App\Repositories;
 
-use App\Models\YearTemplate;
+use App\Models\Template;
 use Framework\Database;
 use DateTime;
 
-class YearTemplateRepository
+class TemplateRepository
 {
     private Database $database;
 
@@ -16,11 +16,11 @@ class YearTemplateRepository
     }
 
     /**
-     * @return YearTemplate[]
+     * @return Template[]
      */
     public function all(): array
     {
-        $stmt = $this->database->run("SELECT * FROM year_templates")->fetchAll();
+        $stmt = $this->database->run("SELECT * FROM templates")->fetchAll();
         $templates = [];
         foreach ($stmt as $row) {
             $course = $this->fromDbRow($row);
@@ -29,10 +29,10 @@ class YearTemplateRepository
         return $templates;
     }
 
-    public function findById(int $id): ?YearTemplate
+    public function findById(int $id): ?Template
     {
         $row = $this->database->run(
-            "SELECT * FROM year_templates WHERE id = ?",
+            "SELECT * FROM templates WHERE id = ?",
             [$id]
         )->fetch();
 
@@ -43,9 +43,9 @@ class YearTemplateRepository
         return $this->fromDbRow($row);
     }
 
-    private function fromDbRow(mixed $row): YearTemplate
+    private function fromDbRow(mixed $row): Template
     {
-        $template = new YearTemplate();
+        $template = new Template();
         $template->id = $row->id;
         $template->name = $row->name;
         $template->start_date = new DateTime($row->start_date);

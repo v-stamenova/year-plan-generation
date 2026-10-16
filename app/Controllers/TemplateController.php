@@ -5,17 +5,17 @@ namespace App\Controllers;
 use App\DTOs\CalendarWeek;
 use App\Models\PlanItemTemplate;
 use App\Repositories\PlanItemTemplateRepository;
-use App\Repositories\YearTemplateRepository;
+use App\Repositories\TemplateRepository;
 use App\Services\YearPlanCalendarService;
 use Framework\Controller;
 use Framework\Request;
 
-class YearTemplateController extends Controller
+class TemplateController extends Controller
 {
     private YearPlanCalendarService $calendarService;
 
     public function __construct(
-        private YearTemplateRepository $yearTemplateRepository,
+        private TemplateRepository         $yearTemplateRepository,
         private PlanItemTemplateRepository $planItemTemplateRepository,
     ) {
         $this->calendarService = new YearPlanCalendarService();

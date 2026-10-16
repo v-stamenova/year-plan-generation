@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class YearTemplate
+class Template
 {
     public int $id;
     public ?string $name = null;

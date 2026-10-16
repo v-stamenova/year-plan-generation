@@ -1,7 +1,7 @@
-DROP TABLE IF EXISTS year_templates;
+DROP TABLE IF EXISTS templates;
 DROP TABLE IF EXISTS plan_item_templates;
 
-CREATE TABLE year_templates
+CREATE TABLE templates
 (
     id         INTEGER PRIMARY KEY,
     name       TEXT,
@@ -13,7 +13,7 @@ CREATE TABLE plan_item_templates
 (
     id           INTEGER PRIMARY KEY,
     year_template_id INTEGER NOT NULL
-        REFERENCES year_templates (id)
+        REFERENCES templates (id)
             ON DELETE CASCADE
             ON UPDATE CASCADE,
     start_date   TEXT    NOT NULL,
@@ -28,7 +28,7 @@ CREATE TABLE plan_item_templates
     is_main      INTEGER DEFAULT 0
 );
 
-INSERT INTO year_templates (start_date, end_date)
+INSERT INTO templates (start_date, end_date)
 VALUES ('2026-08-16', '2027-08-28');
 
 
