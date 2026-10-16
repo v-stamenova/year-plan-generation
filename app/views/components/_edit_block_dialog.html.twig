@@ -1,0 +1,118 @@
+<dialog class="dialog" id="editBlockDialog" style="backdrop-filter: none !important;">
+    <div class="dialog-header">
+        <h1 class="dialog-title">Edit a block</h1>
+
+        <button type="button"
+                class="btn-close"
+                data-bs-dismiss="dialog"
+                aria-label="Close">
+        </button>
+    </div>
+
+    <div class="dialog-body">
+        <form id="editBlockForm"
+              method="POST"
+              action="{{ baseUrl|default('') }}/edit"
+              hx-post="{{ baseUrl|default('') }}/edit"
+              hx-target="#calendar">
+
+            <!-- Course selection -->
+            {% if courses|default(null) %}
+            <div id="courseFields" class="mb-3">
+                <label class="form-label" for="course">
+                    Course
+                </label>
+
+                <button class="form-control combobox-toggle"
+                        type="button"
+                        data-bs-toggle="combobox"
+                        data-bs-name="course_id"
+                        data-bs-placeholder="Select a course…"
+                        data-bs-search="true">
+
+                    <span class="combobox-value">
+                        Select a course…
+                    </span>
+
+                    <svg class="combobox-caret"
+                         width="10"
+                         height="16"
+                         viewBox="0 0 10 16"
+                         fill="none"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path
+                                d="M0.46967 5.46967C0.762563 5.17678 1.23744 5.17678 1.53033 5.46967L5 8.93934L8.46967 5.46967C8.76256 5.17678 9.23744 5.17678 9.53033 5.46967C9.82322 5.76256 9.82322 6.23744 9.53033 6.53033L5.53033 10.5303C5.23744 10.8232 4.76256 10.8232 4.46967 10.5303L0.46967 6.53033C0.176777 6.23744 0.176777 5.76256 0.46967 5.46967Z"
+                                fill="currentColor"/>
+                    </svg>
+                </button>
+
+                <div class="menu">
+                    <div class="combobox-search">
+                        <input type="text"
+                               class="form-control combobox-search-input"
+                               placeholder="Search…"
+                               autocomplete="off"
+                               aria-label="Search courses">
+                    </div>
+
+                    {% for course in courses %}
+                        <button class="menu-item"
+                                type="button"
+                                data-bs-value="{{ course.id }}">
+                            {{ course.name }} ({{ course.id }})
+                        </button>
+                    {% endfor %}
+
+                    <div class="combobox-no-results d-none">
+                        No results found
+                    </div>
+                </div>
+            </div>
+
+            {% endif %}
+
+
+            <!-- One-time event fields -->
+            <div id="eventFields"  >
+                <div class="mb-3">
+                    <label class="form-label" for="eventName">
+                        Name
+                    </label>
+
+                    <input type="text"
+                           class="form-control"
+                           id="eventName"
+
+                           name="name"
+                           placeholder="Enter event name">
+                </div>
+
+                <div class="mb-3 d-flex align-items-center justify-content-between">
+                    <label class="form-label mb-0" for="eventColour">
+                        Event colour
+                    </label>
+
+                    <input type="color"
+                           class="form-control form-control-color"
+                           id="eventColour"
+                           name="colour"
+                           value="#3788d8"
+                           title="Choose event colour">
+                </div>
+            </div>
+
+            <div class="dialog-footer">
+                <button type="button"
+                        class="btn-solid theme-secondary"
+                        data-bs-dismiss="dialog">
+                    Cancel
+                </button>
+
+                <button type="submit"
+                        class="btn-solid theme-primary">
+                    Save
+                </button>
+            </div>
+        </form>
+    </div>
+</dialog>

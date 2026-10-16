@@ -30,6 +30,12 @@
     <ul class="list-group">
         {{ addItems }}
 
+        <li class="list-group-item list-group-item-action"
+            data-action="edit"
+            data-bs-toggle="dialog"
+            data-bs-target="#editBlockDialog">
+            Edit block
+        </li>
         <li class="list-group-item list-group-item-action p-1"
             data-action="delete-block">
             <form id="deleteBlockForm" method="POST" action="{{ baseUrl }}/delete" hx-post="{{ baseUrl }}/delete" hx-target="#calendar">

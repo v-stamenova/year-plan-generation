@@ -11,6 +11,7 @@
 
 {% include "components/_context_menu.html.twig" with { baseUrl: baseUrl } only %}
 {% include "components/_add_block_dialog.html.twig" with { baseUrl: baseUrl, courses: courses|default(null) } only %}
+{% include "components/_edit_block_dialog.html.twig" with { baseUrl: baseUrl, courses: courses|default(null) } only %}
 {% include "components/_add_multiday_block_dialog.html.twig" with { baseUrl: baseUrl } only %}
 {% include "components/_scripts.html.twig" %}
 

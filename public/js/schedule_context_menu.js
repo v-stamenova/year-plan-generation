@@ -123,6 +123,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         );
                     }
                     break;
+
+                case 'edit':
+                    console.log('132')
+                    break;
             }
         });
     });

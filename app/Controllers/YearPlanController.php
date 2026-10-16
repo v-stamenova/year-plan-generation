@@ -34,6 +34,11 @@ class YearPlanController extends Controller
         return $this->responseFactory->view('year-plans/index.html.twig', compact('yearTemplates'));
     }
 
+    public function item(Request $request) {
+        $item = $this->planItemRepository->findById($request->get('id'));
+        return $this->responseFactory->json((array) $item);
+    }
+
     public function show(Request $request)
     {
         // hardcoded for now

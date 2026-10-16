@@ -73,4 +73,23 @@ class ResponseFactory
         $response->header = "Location: " . $url;
         return $response;
     }
+
+    public function json(array $data, int $statusCode = 200): Response
+    {
+        $response = new Response();
+        $response->responseCode = $statusCode;
+        $response->header = 'Content-Type: application/json; charset=utf-8';
+
+        try {
+            $response->body = json_encode(
+                $data,
+                JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE
+            );
+        } catch (\JsonException $e) {
+            $response->responseCode = 500;
+            $response->body = '{"error":"Failed to encode JSON response"}';
+        }
+
+        return $response;
+    }
 }
