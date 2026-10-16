@@ -1,6 +1,6 @@
 <div class="d-flex flex-column h-100 w-100">
         {% for item in day %}
-                <div class="w-100 flex-fill d-flex align-items-center justify-content-center schedule-day scheduled-block" data-id="{{ item.id }}"
+                <div class="w-100 flex-fill d-flex {% if not loop.last %} border-bottom border-black {% endif %} align-items-center justify-content-center schedule-day scheduled-block" data-id="{{ item.id }}"
                      style="background-color: {{ item.colour }}"
                      data-date="{{ item.start_date | date("Y-m-d") }}"
                      data-menu="block"

@@ -5,7 +5,7 @@
             {% for segment in week.multiDaySegments %}
                 {% if not segment.item.is_main %}
                     <div
-                            class="schedule-multiday-item scheduled-block"
+                            class="schedule-multiday-item scheduled-block border border-black"
                             data-date="{{ segment.item.start_date | date("Y-m-d") }}"
                             data-menu="block"
                             id="{{ segment.item.id }}"
@@ -24,7 +24,7 @@
         {% for segment in week.multiDaySegments %}
             {% if segment.item.is_main %}
                 <div
-                        class="schedule-multiday-main scheduled-block"
+                        class="schedule-multiday-main scheduled-block border border-black"
                         data-date="{{ segment.item.start_date | date("Y-m-d") }}"
                         data-menu="block"
                         id="{{ segment.item.id }}"
