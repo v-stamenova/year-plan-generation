@@ -115,7 +115,7 @@ class YearPlanController extends Controller
         ]);
     }
 
-    public function update(Request $request) {
+    public function store(Request $request) {
         $planItem = new PlanItem();
         $planItem->start_date = new \DateTime($request->get('start_date'));
         $planItem->year_plan_id = $request->get('id');
@@ -148,7 +148,7 @@ class YearPlanController extends Controller
         ]);
     }
 
-    public function updateBlock(Request $request) {
+    public function update(Request $request) {
         $planItem = $this->planItemRepository->findById($request->get('item_id'));
         $planItem->start_date = new \DateTime($request->get('start_date'));
 
