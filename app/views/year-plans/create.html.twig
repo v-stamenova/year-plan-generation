@@ -1,0 +1,119 @@
+{% extends "partials/base.html.twig" %}
+
+{% set pageTitle = "Templates" %}
+
+{% block content %}
+    <div id="templates">
+
+        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 2.5rem;">
+            <h1>Create Year Plan</h1>
+        </div>
+
+        <form action="/year-plan" method="POST">
+            <div class="row gap-5">
+                <div>
+                    <label class="form-label" for="template_id">
+                        Template
+                    </label>
+
+                    <button class="form-control combobox-toggle"
+                            id="template_id"
+                            type="button"
+                            data-bs-toggle="combobox"
+                            data-bs-name="template_id"
+                            data-bs-placeholder="Select a template…"
+                            data-bs-search="true">
+                        <span class="combobox-value">Select a template…</span>
+                        <svg class="combobox-caret" width="10" height="16" viewBox="0 0 10 16" fill="none"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0.46967 5.46967C0.762563 5.17678 1.23744 5.17678 1.53033 5.46967L5 8.93934L8.46967 5.46967C8.76256 5.17678 9.23744 5.17678 9.53033 5.46967C9.82322 5.76256 9.82322 6.23744 9.53033 6.53033L5.53033 10.5303C5.23744 10.8232 4.76256 10.8232 4.46967 10.5303L0.46967 6.53033C0.176777 6.23744 0.176777 5.76256 0.46967 5.46967Z"
+                                  fill="currentcolor"/>
+                        </svg>
+                    </button>
+
+                    <div class="menu">
+                        <div class="combobox-search">
+                            <input type="text"
+                                   class="form-control combobox-search-input"
+                                   placeholder="Search…"
+                                   autocomplete="off"
+                                   aria-label="Search templates">
+                        </div>
+
+                        {% for template in templates %}
+                            <button class="menu-item"
+                                    type="button"
+                                    data-bs-value="{{ template.id }}">
+                                {{ template.name ?? (
+                                'Year Template '
+                                ~ template.start_date|date('Y')
+                                ~ '-'
+                                ~ template.end_date|date('Y')
+                                ) }}
+                            </button>
+                        {% endfor %}
+
+                        <div class="combobox-no-results d-none">
+                            No results found
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="form-label" for="name">
+                        Name
+                    </label>
+                    <input type="text"
+                           class="form-control"
+                           id="name"
+                           name="name"
+                           placeholder="Enter plan name"
+                           required>
+                </div>
+
+                <div>
+                    <label class="form-label" for="year">
+                        Student year
+                    </label>
+
+                    <button class="form-control combobox-toggle"
+                            id="year"
+                            type="button"
+                            data-bs-toggle="combobox"
+                            data-bs-name="year"
+                            data-bs-placeholder="Select a year…">
+                        <span class="combobox-value">Select a year…</span>
+                        <svg class="combobox-caret" width="10" height="16" viewBox="0 0 10 16" fill="none"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0.46967 5.46967C0.762563 5.17678 1.23744 5.17678 1.53033 5.46967L5 8.93934L8.46967 5.46967C8.76256 5.17678 9.23744 5.17678 9.53033 5.46967C9.82322 5.76256 9.82322 6.23744 9.53033 6.53033L5.53033 10.5303C5.23744 10.8232 4.76256 10.8232 4.46967 10.5303L0.46967 6.53033C0.176777 6.23744 0.176777 5.76256 0.46967 5.46967Z"
+                                  fill="currentcolor"/>
+                        </svg>
+                    </button>
+
+                    <input type="hidden" name="year" value="">
+
+                    <div class="menu">
+                        {% for year in 1..4 %}
+                            <button class="menu-item"
+                                    type="button"
+                                    data-bs-value="{{ year }}">
+                                {{ year }}
+                            </button>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end gap-2 mt-4">
+                <a href="/year-plan"
+                   class="btn btn-secondary">
+                    Cancel
+                </a>
+
+                <button type="submit" class="btn-solid theme-primary">
+                    Submit
+                </button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

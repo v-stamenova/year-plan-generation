@@ -4,8 +4,11 @@ namespace App\Controllers;
 
 use App\DTOs\CalendarWeek;
 use App\Models\PlanItem;
+use App\Models\YearPlan;
 use App\Repositories\CourseRepository;
 use App\Repositories\PlanItemRepository;
+use App\Repositories\PlanItemTemplateRepository;
+use App\Repositories\TemplateRepository;
 use App\Repositories\YearPlanRepository;
 use App\Services\YearPlanCalendarService;
 use Framework\Controller;
@@ -17,15 +20,21 @@ class YearPlanController extends Controller
     private PlanItemRepository $planItemRepository;
     private CourseRepository $courseRepository;
     private YearPlanCalendarService $calendarService;
+    private TemplateRepository $templateRepository;
+    private PlanItemTemplateRepository $planItemTemplateRepository;
 
     public function __construct(
         YearPlanRepository $yearPlanRepository,
         PlanItemRepository $planItemRepository,
-        CourseRepository $courseRepository
+        CourseRepository $courseRepository,
+        TemplateRepository $templateRepository,
+        PlanItemTemplateRepository $planItemTemplateRepository,
     ) {
         $this->yearPlanRepository = $yearPlanRepository;
         $this->planItemRepository = $planItemRepository;
         $this->courseRepository = $courseRepository;
+        $this->templateRepository = $templateRepository;
+        $this->planItemTemplateRepository = $planItemTemplateRepository;
         $this->calendarService = new YearPlanCalendarService();
     }
 
@@ -169,5 +178,41 @@ class YearPlanController extends Controller
         return $this->responseFactory->view('components/_calendar.html.twig', [
             'weeks' => $this->weeks(),
         ]);
+    }
+
+    public function create()
+    {
+        $templates = $this->templateRepository->all();
+        return $this->responseFactory->view('year-plans/create.html.twig', [
+            'templates' => $templates,
+        ]);
+    }
+
+    public function storePlan (Request $request) {
+        $template = $this->templateRepository->findById((int) $request->get('template_id'));
+
+        $yearPlan = new YearPlan();
+        $yearPlan->start_date = $template->start_date;
+        $yearPlan->end_date = $template->end_date;
+
+        $yearPlan->name = $request->get('name');
+        $yearPlan->student_year = (int) $request->get('student_year');
+
+        $id = $this->yearPlanRepository->insert($yearPlan);
+
+        $templateItems = $this->planItemTemplateRepository->findByYearPlanId($request->get('template_id'));
+
+        foreach ($templateItems as $templateItem) {
+            $item = new PlanItem();
+            $item->name = $templateItem->name;
+            $item->course_id = $templateItem->course_id;
+            $item->year_plan_id = $id;
+            $item->colour = $templateItem->colour;
+            $item->start_date = $templateItem->start_date;
+            $item->end_date = $templateItem->end_date;
+            $this->planItemRepository->create($item);
+        }
+
+        return $this->responseFactory->redirect('year-plan/' . $id);
     }
 }

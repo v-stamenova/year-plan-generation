@@ -1,3 +1,7 @@
+body {
+    font-family: "Roboto", sans-serif;
+}
+
 :root {
     --week-col: 70px;
     --block-week-col: 100px;

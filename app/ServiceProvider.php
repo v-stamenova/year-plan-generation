@@ -42,12 +42,12 @@ class ServiceProvider implements ServiceProviderInterface
         $courseRepository = new CourseRepository($database);
         $container->set(CourseRepository::class, $courseRepository);
 
-        $yearPlanController = new YearPlanController($yearPlanRepository, $planItemRepository, $courseRepository);
-        $container->set(YearPlanController::class, $yearPlanController);
-
         $templateRepository = new TemplateRepository($database);
         $planItemTemplateRepository = new PlanItemTemplateRepository($database);
         $yearTemplateController = new TemplateController($templateRepository, $planItemTemplateRepository);
         $container->set(TemplateController::class, $yearTemplateController);
+
+        $yearPlanController = new YearPlanController($yearPlanRepository, $planItemRepository, $courseRepository, $templateRepository, $planItemTemplateRepository);
+        $container->set(YearPlanController::class, $yearPlanController);
     }
 }

@@ -44,6 +44,25 @@ class YearPlanRepository
         return $this->fromDbRow($row);
     }
 
+    public function insert(YearPlan $plan): int
+    {
+        $this->database->run(
+            "INSERT INTO year_plans (name, student_year, start_date, end_date)
+         VALUES (?, ?, ?, ?)",
+            [
+                $plan->name,
+                $plan->student_year,
+                $plan->start_date->format('Y-m-d'),
+                $plan->end_date->format('Y-m-d'),
+            ]
+        );
+
+        $id = (int) $this->database->getLastID();
+        $plan->id = $id;
+
+        return $id;
+    }
+
     private function fromDbRow(mixed $row): YearPlan
     {
         $plan = new YearPlan();
