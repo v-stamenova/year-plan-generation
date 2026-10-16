@@ -116,6 +116,35 @@ class PlanItemRepository
         return $stmt->rowCount() > 0;
     }
 
+    public function update(PlanItem $item): bool
+    {
+        $stmt = $this->database->run(
+            "UPDATE plan_items SET
+            year_plan_id = ?,
+            start_date = ?,
+            end_date = ?,
+            name = ?,
+            colour = ?,
+            course_id = ?,
+            is_main = ?,
+            type = ?
+        WHERE id = ?",
+            [
+                $item->year_plan_id,
+                $item->start_date->format('Y-m-d'),
+                $item->end_date?->format('Y-m-d'),
+                $item->name,
+                $item->colour,
+                $item->course_id,
+                $item->is_main,
+                $item->type,
+                $item->id,
+            ]
+        );
+
+        return $stmt->rowCount() > 0;
+    }
+
     private function fromDbRow(mixed $row): PlanItem
     {
         $item = new PlanItem();

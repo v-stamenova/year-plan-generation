@@ -147,4 +147,27 @@ class YearPlanController extends Controller
             'weeks' => $this->weeks(),
         ]);
     }
+
+    public function updateBlock(Request $request) {
+        $planItem = $this->planItemRepository->findById($request->get('item_id'));
+        $planItem->start_date = new \DateTime($request->get('start_date'));
+
+        if ($request->get('name')) {
+            $planItem->name = $request->get('name');
+            $planItem->colour = $request->get('colour');
+            $planItem->is_main = (bool)$request->get('allDay');
+
+            if ($request->get('end_date')) {
+                $planItem->end_date = new \DateTime($request->get('end_date'));
+            }
+        } else {
+            $planItem->course_id = $request->get('course_id');
+        }
+
+        $this->planItemRepository->update($planItem);
+
+        return $this->responseFactory->view('components/_calendar.html.twig', [
+            'weeks' => $this->weeks(),
+        ]);
+    }
 }
