@@ -8,6 +8,62 @@ document.addEventListener('DOMContentLoaded', () => {
     const deleteForm = document.getElementById('deleteBlockForm');
     const deleteBlockId = document.getElementById('deleteBlockId');
 
+    const editDialog = document.getElementById('editBlockDialog');
+
+    function setGroup(group, active) {
+        if (!group) return;
+        group.hidden = !active;
+        group.disabled = !active;
+    }
+
+    async function openEditDialog(blockId) {
+        if (!editDialog || !blockId) return;
+
+        let item;
+        try {
+            const response = await fetch(`/year-plan/item/${encodeURIComponent(blockId)}`);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            item = await response.json();
+        } catch (error) {
+            console.error('Could not load the schedule block.', error);
+            return;
+        }
+
+        const field = selector => editDialog.querySelector(selector);
+        const isMultiDay = Boolean(item.end_date);
+        const isCourse = !isMultiDay && Boolean(item.course_id) && Boolean(field('#editCourseFields'));
+
+        field('#editItemId').value = item.id;
+
+        // Multi-day items use the multi-day inputs, everything else the single-day ones.
+        setGroup(field('#editSingleFields'), !isMultiDay);
+        setGroup(field('#editMultiFields'), isMultiDay);
+
+        if (isMultiDay) {
+            field('#editMultiName').value = item.name ?? '';
+            field('#editMultiStartDate').value = item.start_date;
+            field('#editMultiEndDate').value = item.end_date;
+            field('#editMultiAllDay').checked = item.is_main;
+            field('#editMultiColour').value = item.colour || '#3788d8';
+            return;
+        }
+
+        field('#editBlockDate').value = item.start_date;
+        field('#editIsOneTime').value = isCourse ? '0' : '1';
+
+        // A course block takes its name/colour from the course, so only the course picker is shown.
+        setGroup(field('#editCourseFields'), isCourse);
+        setGroup(field('#editEventFields'), !isCourse);
+
+        if (isCourse) {
+            // Clicking the menu item makes the combobox select it and update its label and hidden input.
+            field(`#editCourseFields .menu-item[data-bs-value="${CSS.escape(String(item.course_id))}"]`)?.click();
+        } else {
+            field('#editEventName').value = item.name ?? '';
+            field('#editEventColour').value = item.colour || '#3788d8';
+        }
+    }
+
     let selectedDate = null;
     let selectedBlockId = null;
     let activeMenu = null;
@@ -125,7 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     break;
 
                 case 'edit':
-                    console.log('132')
+                    openEditDialog(selectedBlockId);
                     break;
             }
         });

@@ -35,8 +35,22 @@ class YearPlanController extends Controller
     }
 
     public function item(Request $request) {
-        $item = $this->planItemRepository->findById($request->get('id'));
-        return $this->responseFactory->json((array) $item);
+        $item = $this->planItemRepository->findById((int) $request->get('id'));
+
+        if (!$item) {
+            return $this->responseFactory->json(['error' => 'Item not found'], 404);
+        }
+
+        return $this->responseFactory->json([
+            'id'         => $item->id,
+            'name'       => $item->name,
+            'colour'     => $item->colour,
+            'start_date' => $item->start_date->format('Y-m-d'),
+            'end_date'   => $item->end_date?->format('Y-m-d'),
+            'course_id'  => $item->course_id,
+            'is_main'    => $item->is_main,
+            'type'       => $item->type,
+        ]);
     }
 
     public function show(Request $request)

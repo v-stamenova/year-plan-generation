@@ -16,9 +16,16 @@
               hx-post="{{ baseUrl|default('') }}/edit"
               hx-target="#calendar">
 
+            <input type="hidden" id="editItemId" name="item_id" value="">
+
+            <!-- Single-day block (course or one-time event) -->
+            <fieldset id="editSingleFields">
+            <input type="hidden" id="editBlockDate" name="start_date" value="">
+            <input type="hidden" id="editIsOneTime" name="is_one_time" value="0">
+
             <!-- Course selection -->
             {% if courses|default(null) %}
-            <div id="courseFields" class="mb-3">
+            <fieldset id="editCourseFields" class="mb-3">
                 <label class="form-label" for="course">
                     Course
                 </label>
@@ -67,39 +74,108 @@
                         No results found
                     </div>
                 </div>
-            </div>
+            </fieldset>
 
             {% endif %}
 
 
             <!-- One-time event fields -->
-            <div id="eventFields"  >
+            <fieldset id="editEventFields">
                 <div class="mb-3">
-                    <label class="form-label" for="eventName">
+                    <label class="form-label" for="editEventName">
                         Name
                     </label>
 
                     <input type="text"
                            class="form-control"
-                           id="eventName"
-
+                           id="editEventName"
                            name="name"
                            placeholder="Enter event name">
                 </div>
 
                 <div class="mb-3 d-flex align-items-center justify-content-between">
-                    <label class="form-label mb-0" for="eventColour">
+                    <label class="form-label mb-0" for="editEventColour">
                         Event colour
                     </label>
 
                     <input type="color"
                            class="form-control form-control-color"
-                           id="eventColour"
+                           id="editEventColour"
                            name="colour"
                            value="#3788d8"
                            title="Choose event colour">
                 </div>
-            </div>
+            </fieldset>
+            </fieldset>
+
+            <!-- Multi-day block -->
+            <fieldset id="editMultiFields" hidden disabled>
+                <input type="hidden" name="is_one_time" value="1">
+
+                <div class="mb-3">
+                    <label class="form-label" for="editMultiName">
+                        Name
+                    </label>
+
+                    <input type="text"
+                           class="form-control"
+                           id="editMultiName"
+                           name="name"
+                           placeholder="Enter event name"
+                           required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="editMultiStartDate">
+                        Start date
+                    </label>
+
+                    <input type="date"
+                           class="form-control"
+                           id="editMultiStartDate"
+                           name="start_date"
+                           required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="editMultiEndDate">
+                        End date
+                    </label>
+
+                    <input type="date"
+                           class="form-control"
+                           id="editMultiEndDate"
+                           name="end_date"
+                           required>
+                </div>
+
+                <div class="mb-3">
+                    <div class="d-flex align-items-center justify-content-between w-100">
+                        <label class="form-label" for="editMultiAllDay">
+                            All-day event?
+                        </label>
+                        <input type="checkbox" id="editMultiAllDay" name="allDay" class="check" />
+                    </div>
+                    <div class="form-text mb-2">
+                        Distinguishes full-day events, such as school breaks, from markers
+                        that simply indicate important dates or periods, such as the start
+                        of a block or exam week.
+                    </div>
+                </div>
+
+                <div class="mb-3 d-flex align-items-center justify-content-between">
+                    <label class="form-label mb-0" for="editMultiColour">
+                        Event colour
+                    </label>
+
+                    <input type="color"
+                           class="form-control form-control-color"
+                           id="editMultiColour"
+                           name="colour"
+                           value="#3788d8"
+                           title="Choose event colour">
+                </div>
+            </fieldset>
 
             <div class="dialog-footer">
                 <button type="button"
