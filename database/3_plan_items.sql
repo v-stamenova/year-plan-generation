@@ -1,43 +1,258 @@
-DROP TABLE IF EXISTS plan_items;
-
-CREATE TABLE plan_items
-(
-    id           INTEGER PRIMARY KEY,
-    year_plan_id INTEGER NOT NULL
-        REFERENCES year_plans (id)
-            ON DELETE CASCADE
-            ON UPDATE CASCADE,
-    start_date   TEXT    NOT NULL,
-    end_date     TEXT,
-    name         TEXT,
-    colour       TEXT,
-    course_id    TEXT
-        REFERENCES courses (id)
-            ON DELETE CASCADE
-            ON UPDATE CASCADE,
-    type         TEXT,
-    is_main      INTEGER DEFAULT 0 -- Used to store TRUE (1) or FALSE (0)
+BEGIN TRANSACTION;
+CREATE TABLE IF NOT EXISTS "plan_items" (
+                                            "id"	INTEGER,
+                                            "year_plan_id"	INTEGER NOT NULL,
+                                            "start_date"	TEXT NOT NULL,
+                                            "end_date"	TEXT,
+                                            "name"	TEXT,
+                                            "colour"	TEXT,
+                                            "course_id"	TEXT,
+                                            "type"	TEXT,
+                                            "is_main"	INTEGER DEFAULT 0,
+                                            PRIMARY KEY("id"),
+                                            FOREIGN KEY("course_id") REFERENCES "courses"("id") ON DELETE CASCADE ON UPDATE CASCADE,
+                                            FOREIGN KEY("year_plan_id") REFERENCES "year_plans"("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
-
---
--- INSERT INTO plan_items (year_plan_id, start_date, end_date, name, colour, type)
--- VALUES (1, "2026-08-30", "2026-09-05", "Start Block 1", "#B1A0C7", 'block'),
---        (1, "2026-11-08", "2026-11-14", "Start Block 2", "#B1A0C7", 'block'),
---        (1, "2027-01-31", "2027-02-06", "Start Block 3", "#B1A0C7", 'block'),
---        (1, "2027-04-18", "2027-04-24", "Start Block 4", "#B1A0C7", 'block'),
---        (1, "2026-10-25", "2026-10-31", "Exam week", "#ffff80", 'exam'),
---        (1, "2026-11-01", "2026-11-07", "Project week", "#3788d8", 'project'),
---        (1, "2027-01-10", "2027-01-30", "Exam week", "#ffff80", 'exam'),
---        (1, "2027-03-28", "2027-04-17", "Exam week", "#ffff80", 'exam'),
---        (1, "2027-06-13", "2027-07-03", "Exam week", "#ffff80", 'exam');
---
--- INSERT INTO plan_items (year_plan_id, start_date, end_date, name, colour, is_main, type)
--- VALUES (1, "2026-10-18", "2026-10-24", "Autumn Break", "#CCFFCC", 1, 'break'),
---        (1, "2026-12-20", "2027-01-02", "Winter Break", "#CCFFCC", 1, 'break'),
---        (1, "2027-02-07", "2027-02-13", "Spring Break", "#CCFFCC", 1, 'break'),
---        (1, "2027-04-25", "2027-05-01", "May Break", "#CCFFCC", 1, 'break');
---
--- INSERT INTO plan_items (year_plan_id, start_date, name, colour, is_main, type)
--- VALUES (1, "2027-05-05", "Liberation Day", "#CCFFCC", 1, 'break'),
---        (1, "2027-05-06",  "Ascension Day", "#CCFFCC", 1, 'break'),
---        (1, "2027-05-07",  "Lecture Free Day", "#CCFFCC", 1, 'break');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (1,1,'2026-08-30','2026-09-05','Start Block 1','#B1A0C7',NULL,'block',0);
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (2,1,'2026-11-08','2026-11-14','Start Block 2','#B1A0C7',NULL,'block',0);
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (3,1,'2027-01-31','2027-02-06','Start Block 3','#B1A0C7',NULL,'block',0);
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (4,1,'2027-04-18','2027-04-24','Start Block 4','#B1A0C7',NULL,'block',0);
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (5,1,'2026-10-18','2026-10-24','Autumn Break','#CCFFCC',NULL,'break',1);
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (6,1,'2026-12-20','2027-01-02','Winter Break','#CCFFCC',NULL,'break',1);
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (7,1,'2027-02-07','2027-02-13','Spring Break','#CCFFCC',NULL,'break',1);
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (8,1,'2027-04-25','2027-05-01','May Break','#CCFFCC',NULL,'break',1);
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (9,1,'2027-05-05',NULL,'Liberation Day','#CCFFCC',NULL,'break',1);
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (10,1,'2027-05-06',NULL,'Ascension Day','#CCFFCC',NULL,'break',1);
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (11,1,'2027-05-07',NULL,'Lecture Free Day','#CCFFCC',NULL,'break',1);
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (12,1,'2026-09-07',NULL,NULL,NULL,'CSB',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (13,1,'2026-09-09',NULL,NULL,NULL,'CSB',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (14,1,'2026-09-14',NULL,NULL,NULL,'CSB',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (15,1,'2026-09-16',NULL,NULL,NULL,'CSB',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (16,1,'2026-09-21',NULL,NULL,NULL,'CSB',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (17,1,'2026-09-23',NULL,NULL,NULL,'CSB',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (18,1,'2026-09-28',NULL,NULL,NULL,'CSB',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (19,1,'2026-09-30',NULL,NULL,NULL,'CSB',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (20,1,'2026-10-05',NULL,NULL,NULL,'CSB',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (21,1,'2026-10-07',NULL,NULL,NULL,'CSB',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (22,1,'2026-10-12',NULL,NULL,NULL,'CSB',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (23,1,'2026-10-14',NULL,NULL,NULL,'CSB',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (24,1,'2026-09-08',NULL,NULL,NULL,'PBA',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (25,1,'2026-09-11',NULL,NULL,NULL,'PBA',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (26,1,'2026-09-15',NULL,NULL,NULL,'PBA',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (27,1,'2026-09-18',NULL,NULL,NULL,'PBA',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (28,1,'2026-09-22',NULL,NULL,NULL,'PBA',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (29,1,'2026-09-25',NULL,NULL,NULL,'PBA',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (30,1,'2026-09-29',NULL,NULL,NULL,'PBA',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (31,1,'2026-10-02',NULL,NULL,NULL,'PBA',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (32,1,'2026-10-06',NULL,NULL,NULL,'PBA',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (33,1,'2026-10-09',NULL,NULL,NULL,'PBA',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (34,1,'2026-10-13',NULL,NULL,NULL,'PBA',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (35,1,'2026-10-16',NULL,NULL,NULL,'PBA',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (36,1,'2026-09-10',NULL,NULL,NULL,'PCO',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (37,1,'2026-09-17',NULL,NULL,NULL,'PCO',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (38,1,'2026-09-24',NULL,NULL,NULL,'PCO',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (39,1,'2026-10-01',NULL,NULL,NULL,'PCO',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (40,1,'2026-10-08',NULL,NULL,NULL,'PCO',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (41,1,'2026-10-15',NULL,NULL,NULL,'PCO',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (42,1,'2026-09-10',NULL,NULL,NULL,'ITS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (43,1,'2026-09-17',NULL,NULL,NULL,'ITS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (44,1,'2026-09-24',NULL,NULL,NULL,'ITS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (45,1,'2026-10-01',NULL,NULL,NULL,'ITS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (46,1,'2026-10-08',NULL,NULL,NULL,'ITS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (47,1,'2026-10-15',NULL,NULL,NULL,'ITS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (48,1,'2026-09-01',NULL,NULL,NULL,'PCO',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (49,1,'2026-09-02',NULL,NULL,NULL,'PCO',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (50,1,'2026-09-03',NULL,NULL,NULL,'PCO',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (51,1,'2026-09-04',NULL,NULL,NULL,'PCO',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (52,1,'2026-08-31',NULL,'Introduction event ICT','#3788d8',NULL,NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (53,1,'2026-10-26','2026-10-30','Exam week','#ffff80',NULL,NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (54,1,'2026-10-26',NULL,'PCO Exam','#ffff80',NULL,NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (55,1,'2026-10-27',NULL,'PCO Exam','#ffff80',NULL,NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (56,1,'2026-10-28',NULL,'PBA Exam','#ffff80',NULL,NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (57,1,'2026-10-29',NULL,'PCO Exam','#ffff80',NULL,NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (58,1,'2026-10-30',NULL,'CSB Exam','#ffff80',NULL,NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (59,1,'2026-11-02','2026-11-06','Project Week','#3788d8',NULL,NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (60,1,'2026-11-03',NULL,NULL,NULL,'PRF',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (61,1,'2026-11-06',NULL,NULL,NULL,'PRF',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (62,1,'2026-11-09',NULL,NULL,NULL,'PRF',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (63,1,'2026-11-10',NULL,NULL,NULL,'PRF',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (64,1,'2026-11-11',NULL,NULL,NULL,'PRF',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (65,1,'2026-11-12',NULL,NULL,NULL,'PRF',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (66,1,'2026-11-13',NULL,NULL,NULL,'PRF',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (67,1,'2026-11-16',NULL,NULL,NULL,'OOP',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (68,1,'2026-11-17',NULL,NULL,NULL,'OOP',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (69,1,'2026-11-18',NULL,NULL,NULL,'OOP',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (70,1,'2026-11-23',NULL,NULL,NULL,'OOP',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (71,1,'2026-11-24',NULL,NULL,NULL,'OOP',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (72,1,'2026-11-25',NULL,NULL,NULL,'OOP',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (73,1,'2026-11-30',NULL,NULL,NULL,'OOP',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (74,1,'2026-12-01',NULL,NULL,NULL,'OOP',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (76,1,'2026-12-07',NULL,NULL,NULL,'OOP',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (77,1,'2026-12-08',NULL,NULL,NULL,'OOP',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (78,1,'2026-12-09',NULL,NULL,NULL,'OOP',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (79,1,'2026-11-17',NULL,NULL,NULL,'ITS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (80,1,'2026-11-19',NULL,NULL,NULL,'ITS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (81,1,'2026-11-24',NULL,NULL,NULL,'ITS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (82,1,'2026-11-26',NULL,NULL,NULL,'ITS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (83,1,'2026-12-01',NULL,NULL,NULL,'ITS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (84,1,'2026-12-03',NULL,NULL,NULL,'ITS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (85,1,'2026-12-08',NULL,NULL,NULL,'ITS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (86,1,'2026-12-10',NULL,NULL,NULL,'ITS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (87,1,'2026-12-15',NULL,NULL,NULL,'ITS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (88,1,'2026-12-17',NULL,NULL,NULL,'ITS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (89,1,'2026-11-18',NULL,NULL,NULL,'PRF',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (90,1,'2026-11-25',NULL,NULL,NULL,'PRF',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (91,1,'2026-12-02',NULL,NULL,NULL,'PRF',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (92,1,'2026-12-09',NULL,NULL,NULL,'PRF',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (93,1,'2026-12-16',NULL,NULL,NULL,'PRF',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (94,1,'2026-12-17',NULL,NULL,NULL,'PRF',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (95,1,'2026-12-11',NULL,NULL,NULL,'PRF',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (96,1,'2026-12-18',NULL,NULL,NULL,'PRF',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (97,1,'2026-12-14',NULL,NULL,NULL,'PRF',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (98,1,'2026-11-20',NULL,'IT Conference','#ff8040',NULL,NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (99,1,'2026-11-27',NULL,NULL,NULL,'OOP',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (100,1,'2026-12-04',NULL,NULL,NULL,'OOP',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (101,1,'2026-11-27',NULL,'SCC','#ff80c0',NULL,NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (102,1,'2027-01-04',NULL,NULL,NULL,'PRF',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (103,1,'2027-01-05',NULL,NULL,NULL,'PRF',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (104,1,'2027-01-06',NULL,NULL,NULL,'PRF',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (105,1,'2027-01-08',NULL,'SCC','#ff80c0',NULL,NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (106,1,'2026-11-19',NULL,NULL,NULL,'ATM',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (107,1,'2026-11-26',NULL,NULL,NULL,'ATM',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (108,1,'2026-12-03',NULL,NULL,NULL,'ATM',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (109,1,'2026-12-10',NULL,NULL,NULL,'ATM',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (110,1,'2026-12-17',NULL,NULL,NULL,'ATM',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (111,1,'2027-01-07',NULL,NULL,NULL,'ATM',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (112,1,'2027-01-07',NULL,NULL,NULL,'ITS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (113,1,'2026-12-10',NULL,'PCO Exam','#ffff80',NULL,NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (114,1,'2026-11-19',NULL,'Inspection','#ffff80',NULL,NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (115,1,'2027-01-11','2026-10-30','Exam Week','#ffff80',NULL,NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (116,1,'2027-01-11','2027-01-30','Exam week','#ffff80',NULL,NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (117,1,'2027-01-13',NULL,'ATM Exam','#ffff80',NULL,NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (118,1,'2027-01-15',NULL,'OOP Exam','#ffff80',NULL,NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (119,1,'2027-01-18',NULL,'PBA Exam','#ffff80',NULL,NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (120,1,'2027-01-19',NULL,'Project Foundations','#ffff80',NULL,NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (121,1,'2027-01-20',NULL,'Project Foundations','#ffff80',NULL,NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (122,1,'2027-01-21',NULL,'Inspeciton','#ffff80',NULL,NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (123,1,'2027-01-22',NULL,'CSB','#ffff80',NULL,NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (124,1,'2027-01-28',NULL,'Agile','#ffff80',NULL,NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (125,1,'2027-02-01',NULL,NULL,NULL,'SEB',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (126,1,'2027-02-04',NULL,NULL,NULL,'SEB',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (127,1,'2027-02-08',NULL,NULL,NULL,'SEB',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (128,1,'2027-02-11',NULL,NULL,NULL,'SEB',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (129,1,'2027-02-15',NULL,NULL,NULL,'SEB',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (130,1,'2027-02-18',NULL,NULL,NULL,'SEB',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (131,1,'2027-02-22',NULL,NULL,NULL,'SEB',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (132,1,'2027-02-25',NULL,NULL,NULL,'SEB',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (133,1,'2027-03-01',NULL,NULL,NULL,'SEB',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (134,1,'2027-03-04',NULL,NULL,NULL,'SEB',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (135,1,'2027-03-08',NULL,NULL,NULL,'SEB',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (136,1,'2027-03-11',NULL,NULL,NULL,'SEB',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (137,1,'2027-03-15',NULL,NULL,NULL,'SEB',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (138,1,'2027-03-18',NULL,NULL,NULL,'SEB',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (139,1,'2027-03-22',NULL,NULL,NULL,'SEB',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (140,1,'2027-03-25',NULL,NULL,NULL,'SEB',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (141,1,'2027-02-02',NULL,NULL,NULL,'FOD',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (142,1,'2027-02-09',NULL,NULL,NULL,'FOD',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (143,1,'2027-02-16',NULL,NULL,NULL,'FOD',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (144,1,'2027-02-23',NULL,NULL,NULL,'FOD',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (145,1,'2027-03-02',NULL,NULL,NULL,'FOD',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (146,1,'2027-03-09',NULL,NULL,NULL,'FOD',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (147,1,'2027-03-16',NULL,NULL,NULL,'FOD',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (148,1,'2027-03-23',NULL,NULL,NULL,'FOD',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (149,1,'2027-02-02',NULL,NULL,NULL,'ITS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (150,1,'2027-02-09',NULL,NULL,NULL,'ITS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (151,1,'2027-02-16',NULL,NULL,NULL,'ITS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (152,1,'2027-02-23',NULL,NULL,NULL,'ITS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (153,1,'2027-03-02',NULL,NULL,NULL,'ITS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (154,1,'2027-03-09',NULL,NULL,NULL,'ITS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (155,1,'2027-03-16',NULL,NULL,NULL,'ITS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (156,1,'2027-03-23',NULL,NULL,NULL,'ITS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (157,1,'2027-02-03',NULL,NULL,NULL,'REM',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (158,1,'2027-02-10',NULL,NULL,NULL,'REM',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (159,1,'2027-02-17',NULL,NULL,NULL,'REM',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (160,1,'2027-02-24',NULL,NULL,NULL,'REM',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (161,1,'2027-03-03',NULL,NULL,NULL,'REM',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (162,1,'2027-03-10',NULL,NULL,NULL,'REM',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (163,1,'2027-03-17',NULL,NULL,NULL,'REM',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (164,1,'2027-03-24',NULL,NULL,NULL,'REM',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (165,1,'2027-02-04',NULL,NULL,NULL,'ITS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (166,1,'2027-02-11',NULL,NULL,NULL,'ITS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (167,1,'2027-02-18',NULL,NULL,NULL,'ITS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (168,1,'2027-02-25',NULL,NULL,NULL,'ITS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (169,1,'2027-03-04',NULL,NULL,NULL,'ITS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (170,1,'2027-03-11',NULL,NULL,NULL,'ITS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (171,1,'2027-03-18',NULL,NULL,NULL,'ITS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (172,1,'2027-03-25',NULL,NULL,NULL,'ITS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (175,1,'2027-03-29','2027-04-02','Exam week','#ffff80',NULL,NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (177,1,'2027-04-12','2027-04-17','Exam week','#ffff80',NULL,NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (178,1,'2027-04-19',NULL,NULL,NULL,'WAD',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (179,1,'2027-04-20',NULL,NULL,NULL,'WAD',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (180,1,'2027-04-21',NULL,NULL,NULL,'WAD',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (181,1,'2027-04-22',NULL,NULL,NULL,'WAD',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (182,1,'2027-05-12',NULL,NULL,NULL,'WAD',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (183,1,'2027-05-19',NULL,NULL,NULL,'WAD',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (184,1,'2027-05-26',NULL,NULL,NULL,'WAD',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (185,1,'2027-06-02',NULL,NULL,NULL,'WAD',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (186,1,'2027-05-14',NULL,NULL,NULL,'WAD',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (187,1,'2027-05-21',NULL,NULL,NULL,'WAD',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (189,1,'2027-05-04',NULL,'Break?','#00ff80',NULL,NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (190,1,'2027-05-03',NULL,'Break?','#80ff80',NULL,NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (191,1,'2027-05-10',NULL,NULL,NULL,'WAD',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (192,1,'2027-05-11',NULL,NULL,NULL,'DSB',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (194,1,'2027-05-18',NULL,NULL,NULL,'DSB',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (196,1,'2027-05-25',NULL,NULL,NULL,'DSB',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (198,1,'2027-06-01',NULL,NULL,NULL,'DSB',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (200,1,'2027-06-08',NULL,NULL,NULL,'DSB',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (201,1,'2027-05-17',NULL,'Pentecost Monday','#80ff80',NULL,NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (202,1,'2027-05-11',NULL,NULL,NULL,'ITS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (203,1,'2027-05-13',NULL,NULL,NULL,'ITS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (204,1,'2027-05-18',NULL,NULL,NULL,'ITS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (205,1,'2027-05-20',NULL,NULL,NULL,'ITS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (206,1,'2027-05-25',NULL,NULL,NULL,'ITS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (207,1,'2027-05-27',NULL,NULL,NULL,'ITS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (208,1,'2027-06-01',NULL,NULL,NULL,'ITS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (209,1,'2027-06-03',NULL,NULL,NULL,'ITS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (210,1,'2027-06-08',NULL,NULL,NULL,'ITS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (211,1,'2027-06-10',NULL,NULL,NULL,'ITS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (212,1,'2027-05-13',NULL,NULL,NULL,'ACS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (213,1,'2027-05-20',NULL,NULL,NULL,'ACS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (214,1,'2027-05-27',NULL,NULL,NULL,'ACS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (215,1,'2027-06-03',NULL,NULL,NULL,'ACS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (216,1,'2027-05-31',NULL,NULL,NULL,'WAD',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (217,1,'2027-06-04',NULL,NULL,NULL,'DSB',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (218,1,'2027-05-28',NULL,NULL,NULL,'DSB',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (219,1,'2027-05-24',NULL,NULL,NULL,'WAD',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (220,1,'2027-04-23',NULL,NULL,NULL,'ACS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (221,1,'2027-02-03',NULL,NULL,NULL,'OOP',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (222,1,'2027-03-30',NULL,NULL,NULL,'OOP',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (223,1,'2027-03-31',NULL,NULL,NULL,'FOD',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (224,1,'2027-04-01',NULL,NULL,NULL,'REM',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (225,1,'2027-04-02',NULL,NULL,NULL,'SEB',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (226,1,'2027-04-13',NULL,NULL,NULL,'FOD',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (227,1,'2027-04-14',NULL,NULL,NULL,'SEB',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (228,1,'2027-04-15',NULL,NULL,NULL,'REM',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (229,1,'2027-04-05','2027-04-01','Project Week','#dc8add',NULL,NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (230,1,'2027-04-05','2027-04-09','Project Week','#dc8add',NULL,NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (231,1,'2027-04-22',NULL,NULL,NULL,'ITS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (232,1,'2027-04-20',NULL,NULL,NULL,'ITS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (233,1,'2027-04-19',NULL,NULL,NULL,'ACS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (234,1,'2027-06-14',NULL,NULL,NULL,'DSB',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (235,1,'2027-06-16',NULL,NULL,NULL,'WAD',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (236,1,'2027-06-17',NULL,NULL,NULL,'ACS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (237,1,'2027-06-28',NULL,NULL,NULL,'DSB',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (238,1,'2027-06-30',NULL,NULL,NULL,'WAD',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (239,1,'2027-07-01',NULL,NULL,NULL,'ACS',NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (240,1,'2027-06-14','2027-06-18','Exam Week','#f9f06b',NULL,NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (241,1,'2027-06-21','2027-06-18','Exam Week','#f9f06b',NULL,NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (242,1,'2027-06-21','2027-06-18','Exam Week','#f9f06b',NULL,NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (243,1,'2027-06-21','2027-06-18','Exam Week','#f9f06b',NULL,NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (244,1,'2027-06-28','2027-06-18','Exam Week','#f9f06b',NULL,NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (245,1,'2027-06-21','2027-06-18','Exam Week','#f9f06b',NULL,NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (246,1,'2027-06-21','2027-06-18','Exam Week 2','#f9f06b',NULL,NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (247,1,'2027-06-21','2027-06-18','Exam Week 2','#f9f06b',NULL,NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (248,1,'2027-06-21','2027-06-18','Exam Week','#f9f06b',NULL,NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (249,1,'2027-06-21','2027-06-25','Exam Week','#f9f06b',NULL,NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (250,1,'2027-06-28','2027-07-02','Exam Week','#f9f06b',NULL,NULL,'');
+INSERT INTO "plan_items" ("id","year_plan_id","start_date","end_date","name","colour","course_id","type","is_main") VALUES (251,1,'2027-07-08','2027-07-09','Hackathon','#ff7800',NULL,NULL,'');
+COMMIT;
